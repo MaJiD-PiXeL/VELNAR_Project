@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">VELNAR</title>
+  <desc id="desc">نشان هندسی V و N با سه مسیر داده</desc>
+  <defs>
+    <linearGradient id="left" x1="92" y1="118" x2="177" y2="425" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#175bff"/>
+      <stop offset=".52" stop-color="#1537e7"/>
+      <stop offset="1" stop-color="#1710b8"/>
+    </linearGradient>
+    <linearGradient id="rise" x1="137" y1="424" x2="234" y2="305" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2a8cff"/>
+      <stop offset=".54" stop-color="#1765ff"/>
+      <stop offset="1" stop-color="#3344ff"/>
+    </linearGradient>
+    <linearGradient id="main" x1="111" y1="126" x2="371" y2="411" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#238cff"/>
+      <stop offset=".34" stop-color="#1767ff"/>
+      <stop offset=".7" stop-color="#263bff"/>
+      <stop offset="1" stop-color="#2114c7"/>
+    </linearGradient>
+    <linearGradient id="right" x1="367" y1="179" x2="367" y2="416" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1b91ff"/>
+      <stop offset=".5" stop-color="#176cff"/>
+      <stop offset="1" stop-color="#2637e8"/>
+    </linearGradient>
+    <linearGradient id="signal" x1="275" y1="239" x2="417" y2="68" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3441f3"/>
+      <stop offset=".52" stop-color="#167aff"/>
+      <stop offset="1" stop-color="#23a3ff"/>
+    </linearGradient>
+    <linearGradient id="spine" x1="252" y1="238" x2="300" y2="171" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2b31dd"/>
+      <stop offset="1" stop-color="#1e91ff"/>
+    </linearGradient>
+  </defs>
+
+  <path d="M82 121 124 166l54 184-48 67-48-190Z" fill="url(#left)"/>
+  <path d="m130 417 79-105 41 43-76 91Z" fill="url(#rise)"/>
+
+  <path d="M251 217 299 169v112l-24-26-24-25Z" fill="url(#spine)"/>
+  <path d="m291 169 101-101h27v18h-18L291 196Zm0 29L392 97h27v18h-18L291 225Zm0 29 101-101h27v18h-18L291 254Z" fill="url(#signal)"/>
+
+  <path d="M82 121h86l231 252-47 48L119 166Z" fill="url(#main)"/>
+  <path d="m352 421 47-48V176l-47 47Z" fill="url(#right)"/>
+
+  <path d="m91 126 267 287" fill="none" stroke="#9fe6ff" stroke-width="2" opacity=".68"/>
+  <path d="m168 121 231 252" fill="none" stroke="#1ea2ff" stroke-width="2" opacity=".46"/>
+  <path d="m352 223 47-47" fill="none" stroke="#63c6ff" stroke-width="2" opacity=".54"/>
+</svg>

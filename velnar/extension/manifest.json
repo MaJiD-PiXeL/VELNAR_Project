@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "VELNAR - Customize Your GitHub",
+  "version": "2.0.0",
+  "description": "Make GitHub yours with 30 themes, a custom theme builder, typography and optional animations. Private by design.",
+  "author": "VELNAR",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "options/options.html",
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "permissions": ["storage"],
+  "host_permissions": ["https://github.com/*"],
+  "commands": {
+    "toggle-extension": {
+      "suggested_key": { "default": "Ctrl+Shift+G", "mac": "Command+Shift+G" },
+      "description": "Toggle VELNAR"
+    },
+    "random-theme": {
+      "suggested_key": { "default": "Alt+Shift+R", "mac": "Alt+Shift+R" },
+      "description": "Choose a random theme"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "run_at": "document_start",
+      "js": [
+        "utils/constants.js",
+        "themes/presets.js",
+        "utils/validator.js",
+        "utils/storage.js",
+        "content/injector.js",
+        "content/observer.js",
+        "content/content.js"
+      ]
+    }
+  ],
+  "minimum_chrome_version": "111"
+}
