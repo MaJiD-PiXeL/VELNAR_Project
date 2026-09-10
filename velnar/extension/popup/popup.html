@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <title>VELNAR</title>
+  <link rel="stylesheet" href="../styles/variables.css" />
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="gs-popup">
+    <div class="gs-popup-header">
+      <div class="gs-logo">
+        <img class="gs-logo-img" src="../icons/icon48.png" alt="VELNAR" />
+        VELNAR
+      </div>
+      <div class="gs-switch" id="enabledSwitch"></div>
+    </div>
+
+    <div id="autoDarkBanner" class="gs-banner" style="display:none;">
+      🌗 Auto Dark Mode is on — it decides the theme, so picks below won't
+      show until you <button id="btnDisableAutoDark" class="gs-banner-link">turn it off</button>.
+    </div>
+
+    <div class="gs-popup-section">
+      <div class="gs-popup-label">Quick theme <span id="themeCount"></span></div>
+      <div class="gs-theme-grid" id="themeGrid"></div>
+    </div>
+
+    <div class="gs-popup-section gs-row-2">
+      <button class="gs-btn gs-btn-ghost" id="btnRandom">🎲 Random</button>
+      <button class="gs-btn gs-btn-ghost" id="btnAnimations">✨ Animations</button>
+    </div>
+
+    <div class="gs-popup-footer">
+      <button class="gs-btn gs-btn-ghost" id="btnReset">Reset Theme</button>
+      <button class="gs-btn" id="btnSettings">Open Settings</button>
+    </div>
+
+    <div class="gs-popup-hint">Ctrl+Shift+G to toggle · Ctrl+Shift+R for random</div>
+  </div>
+
+  <script src="../utils/constants.js"></script>
+  <script src="../utils/storage.js"></script>
+  <script src="../themes/presets.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

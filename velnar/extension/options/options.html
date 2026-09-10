@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <title>VELNAR Settings</title>
+  <link rel="stylesheet" href="../styles/variables.css" />
+  <link rel="stylesheet" href="../styles/base.css" />
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="gs-app">
+    <aside class="gs-sidebar">
+      <div class="gs-brand">
+        <img class="gs-logo-img" src="../icons/icon48.png" alt="VELNAR" />
+        VELNAR
+      </div>
+      <nav class="gs-nav">
+        <button class="gs-nav-item is-active" data-tab="themes"><i class="gs-ico">◧</i>Themes</button>
+        <button class="gs-nav-item" data-tab="builder"><i class="gs-ico">◐</i>Theme Builder</button>
+        <button class="gs-nav-item" data-tab="typography"><i class="gs-ico">Aa</i>Typography</button>
+        <button class="gs-nav-item" data-tab="components"><i class="gs-ico">▤</i>Components</button>
+        <button class="gs-nav-item" data-tab="customcss"><i class="gs-ico">{ }</i>Custom CSS</button>
+        <button class="gs-nav-item" data-tab="importexport"><i class="gs-ico">⇅</i>Import / Export</button>
+        <button class="gs-nav-item" data-tab="settings"><i class="gs-ico">⚙</i>Settings</button>
+        <button class="gs-nav-item" data-tab="about"><i class="gs-ico">ℹ</i>About</button>
+      </nav>
+      <div class="gs-sidebar-foot">
+        <div class="gs-toggle-row gs-toggle-row-compact">
+          <span>Extension</span>
+          <div class="gs-switch" id="sidebarEnabledSwitch"></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="gs-main">
+      <!-- Themes -->
+      <section class="gs-tab is-active" id="tab-themes">
+        <h1>Themes</h1>
+        <p class="gs-sub">30 theme amade entekhab kon (chahar taash Gaming e RGB motaharek hastan), ya bere Theme Builder baraye sakhtane theme ekhtesasi khodet.</p>
+
+        <div id="autoDarkBannerOptions" class="gs-banner" style="display:none;">
+          🌗 Auto Dark Mode is on — it decides the active theme automatically based on your
+          system, so clicking a theme below won't visibly apply it until you
+          <button id="btnDisableAutoDarkOptions" class="gs-banner-link">turn it off</button>.
+        </div>
+
+        <div class="gs-builder-actions" style="margin-bottom:20px;">
+          <button class="gs-btn gs-btn-ghost" id="btnRandomTheme">🎲 Random Theme</button>
+        </div>
+
+        <div id="favoritesBlock" style="display:none;">
+          <h2 class="gs-group-title">Favorites</h2>
+          <div class="gs-theme-cards" id="themeCardsFavorites"></div>
+        </div>
+
+        <h2 class="gs-group-title">Official</h2>
+        <div class="gs-theme-cards" id="themeCardsOfficial"></div>
+
+        <h2 class="gs-group-title">Gaming 🎮</h2>
+        <div class="gs-theme-cards" id="themeCardsGaming"></div>
+
+        <h2 class="gs-group-title">Vivid ✨</h2>
+        <div class="gs-theme-cards" id="themeCardsVivid"></div>
+
+        <h2 class="gs-group-title">Community</h2>
+        <div class="gs-theme-cards" id="themeCardsCommunity"></div>
+      </section>
+
+      <!-- Theme Builder -->
+      <section class="gs-tab" id="tab-builder">
+        <h1>Theme Builder</h1>
+        <p class="gs-sub">Har jozyiate rang ro joda joda tanzim kon. Taghirat be soorate live rooye GitHub apply mishe.</p>
+
+        <div class="gs-builder-top">
+          <input type="text" id="themeNameInput" placeholder="Theme name" class="gs-input" />
+          <button class="gs-btn" id="btnApplyCustom">Apply Custom Theme</button>
+          <button class="gs-btn gs-btn-ghost" id="btnLoadPresetIntoBuilder">Start from active theme</button>
+        </div>
+
+        <h2 class="gs-group-title">Surfaces</h2>
+        <div class="gs-color-grid" id="colorGridSurfaces"></div>
+
+        <h2 class="gs-group-title">Text</h2>
+        <div class="gs-color-grid" id="colorGridText"></div>
+
+        <h2 class="gs-group-title">Interactive</h2>
+        <div class="gs-color-grid" id="colorGridInteractive"></div>
+
+        <h2 class="gs-group-title">Borders, Overlays & Code</h2>
+        <div class="gs-color-grid" id="colorGridBorders"></div>
+
+        <h2 class="gs-group-title">Status Colors</h2>
+        <div class="gs-color-grid" id="colorGridStatus"></div>
+
+        <h2 class="gs-group-title">Advanced</h2>
+        <div class="gs-form-grid">
+          <label>Border Radius (px)
+            <input type="range" id="borderRadius" min="0" max="20" step="1" />
+            <span class="gs-range-value" id="borderRadiusValue"></span>
+          </label>
+          <label>Shadow Intensity
+            <input type="range" id="shadowIntensity" min="0" max="100" step="5" />
+            <span class="gs-range-value" id="shadowIntensityValue"></span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Typography -->
+      <section class="gs-tab" id="tab-typography">
+        <h1>Typography</h1>
+        <p class="gs-sub">Font va andazeye text haye GitHub ro taghir bede.</p>
+        <div class="gs-form-grid">
+          <label>Font Family
+            <input type="text" id="fontFamily" class="gs-input" placeholder="e.g. 'Vazirmatn', sans-serif" />
+          </label>
+          <label>Code Font
+            <input type="text" id="codeFont" class="gs-input" placeholder="e.g. 'Fira Code', monospace" />
+          </label>
+          <label>Font Size (px)
+            <input type="range" id="fontSize" min="11" max="20" step="1" />
+            <span class="gs-range-value" id="fontSizeValue"></span>
+          </label>
+          <label>Line Height
+            <input type="range" id="lineHeight" min="1.1" max="2" step="0.1" />
+            <span class="gs-range-value" id="lineHeightValue"></span>
+          </label>
+          <label>Font Weight
+            <select id="fontWeight" class="gs-input">
+              <option value="300">300</option>
+              <option value="400">400</option>
+              <option value="500">500</option>
+              <option value="600">600</option>
+              <option value="700">700</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <!-- Components -->
+      <section class="gs-tab" id="tab-components">
+        <h1>Components</h1>
+        <p class="gs-sub">Har bakhsh az GitHub ro mishe joda joda roshan/khamush kard. Vaghti khamush she, VELNAR dast be zahere oon bakhsh nemizane.</p>
+        <div class="gs-component-list" id="componentList"></div>
+        <div class="gs-builder-actions" style="margin-top:16px;">
+          <button class="gs-btn gs-btn-ghost" id="btnAllComponentsOn">Enable All</button>
+          <button class="gs-btn gs-btn-ghost" id="btnAllComponentsOff">Disable All</button>
+        </div>
+      </section>
+
+      <!-- Custom CSS -->
+      <section class="gs-tab" id="tab-customcss">
+        <h1>Custom CSS</h1>
+        <p class="gs-sub">Baraye advanced userha. CSS delkhah benevis, ghabl az apply shodan validate mishe.</p>
+        <div class="gs-toggle-row">
+          <span>Enable Custom CSS</span>
+          <div class="gs-switch" id="customCssSwitch"></div>
+        </div>
+        <textarea id="customCssInput" class="gs-textarea" spellcheck="false" placeholder=".Header { border-radius: 12px; }"></textarea>
+        <div id="cssErrorBox" class="gs-error-box" style="display:none;"></div>
+        <div class="gs-builder-actions">
+          <button class="gs-btn" id="btnValidateCss">Validate & Apply</button>
+          <button class="gs-btn gs-btn-ghost" id="btnResetCss">Reset Custom CSS</button>
+        </div>
+      </section>
+
+      <!-- Import / Export -->
+      <section class="gs-tab" id="tab-importexport">
+        <h1>Import / Export</h1>
+        <p class="gs-sub">Theme ya kolle tanzimat ro be JSON tabdil kon ya az file import kon.</p>
+        <div class="gs-io-grid">
+          <div class="gs-card gs-io-card">
+            <h3>Export Theme</h3>
+            <p>Faghat rang haye theme fa'al ro export mikone.</p>
+            <button class="gs-btn" id="btnExportTheme">Export Theme JSON</button>
+          </div>
+          <div class="gs-card gs-io-card">
+            <h3>Import Theme</h3>
+            <p>Ye file JSON az theme entekhab kon.</p>
+            <input type="file" id="importThemeFile" accept="application/json" />
+          </div>
+          <div class="gs-card gs-io-card">
+            <h3>Backup Settings</h3>
+            <p>Hameye tanzimat (theme, typography, components, custom css) ro backup begir.</p>
+            <button class="gs-btn" id="btnBackupSettings">Backup All Settings</button>
+          </div>
+          <div class="gs-card gs-io-card">
+            <h3>Restore Settings</h3>
+            <p>Az ye backup ghabli restore kon.</p>
+            <input type="file" id="restoreSettingsFile" accept="application/json" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <section class="gs-tab" id="tab-settings">
+        <h1>Settings</h1>
+        <div class="gs-settings-list">
+          <div class="gs-toggle-row">
+            <span>Enable Extension</span>
+            <div class="gs-switch" id="settingEnabled"></div>
+          </div>
+          <div class="gs-toggle-row">
+            <span>Enable Custom Theme</span>
+            <div class="gs-switch" id="settingCustomTheme"></div>
+          </div>
+          <div class="gs-toggle-row">
+            <span>✨ Animated Theme (glow, gradient navbar, smooth transitions)</span>
+            <div class="gs-switch" id="settingAnimations"></div>
+          </div>
+          <div class="gs-toggle-row">
+            <span>🕸️ Web Swinger easter egg (profile page only)</span>
+            <div class="gs-switch" id="settingWebSwinger"></div>
+          </div>
+          <div class="gs-toggle-row">
+            <span>Auto Dark Mode (follow system light/dark)</span>
+            <div class="gs-switch" id="settingAutoDark"></div>
+          </div>
+        </div>
+        <div class="gs-form-grid" id="autoDarkPickers" style="margin-bottom:26px;">
+          <label>Light theme
+            <select id="autoDarkLight" class="gs-input"></select>
+          </label>
+          <label>Dark theme
+            <select id="autoDarkDark" class="gs-input"></select>
+          </label>
+        </div>
+        <button class="gs-btn gs-btn-danger" id="btnResetAll">Reset All Settings</button>
+      </section>
+
+      <!-- About -->
+      <section class="gs-tab" id="tab-about">
+        <h1>About VELNAR</h1>
+        <p class="gs-sub">VELNAR ye extension e local-first baraye shakhsi sazi kamele zahere GitHub hast. Hich data ee jam avari nemishe va hich chizi be server ersal nemishe.</p>
+      </section>
+    </main>
+  </div>
+
+  <script src="../utils/constants.js"></script>
+  <script src="../utils/storage.js"></script>
+  <script src="../utils/validator.js"></script>
+  <script src="../themes/presets.js"></script>
+  <script src="../components/colorpicker.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

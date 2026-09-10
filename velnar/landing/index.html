@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VELNAR — Make GitHub Yours</title>
+<link rel="icon" type="image/png" href="../extension/icons/icon48.png" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand"><img class="brand-logo" src="../extension/icons/icon48.png" alt="VELNAR" />VELNAR</div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#preview">Themes</a>
+    <a href="#builder">Builder</a>
+    <a href="#how">How It Works</a>
+    <a href="#privacy">Privacy</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a class="nav-cta" href="#install">Install Extension</a>
+</nav>
+
+<header class="hero">
+  <h1>Make GitHub <span class="accent">Yours.</span></h1>
+  <p>Customize GitHub with powerful themes, colors and styles.</p>
+  <div class="hero-actions">
+    <a class="btn btn-primary" id="install" href="#">Install Extension</a>
+    <a class="btn btn-ghost" href="#preview">Explore Themes</a>
+    <a class="btn btn-ghost" href="https://github.com/" target="_blank" rel="noopener">GitHub Repository</a>
+  </div>
+  <div class="hero-preview">
+    <div class="mock-window">
+      <div class="mock-bar"><span></span><span></span><span></span></div>
+      <div class="mock-body">
+        <div class="mock-sidebar"></div>
+        <div class="mock-content">
+          <div class="mock-line w60"></div>
+          <div class="mock-line w40"></div>
+          <div class="mock-card"></div>
+          <div class="mock-card"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="features" class="section">
+  <h2>Features</h2>
+  <div class="grid grid-3">
+    <div class="card"><h3>✨ Animated Theme</h3><p>Optional glow, gradient navbar shift and smooth hover transitions — a theme that moves, not just sits there.</p></div>
+    <div class="card"><h3>30 Built-in Themes</h3><p>From GitHub Classic to RGB Chroma, Aurora, Neon Grid, Nord, Dracula and more — including 4 Gaming themes with live RGB color-cycling.</p></div>
+    <div class="card"><h3>Deep Theme Builder</h3><p>Customize 28 individual colors — surfaces, text, interactive states, borders and status.</p></div>
+    <div class="card"><h3>Per-Component Control</h3><p>Turn theming on or off for navbar, sidebar, code, issues, PRs and 12 more areas individually.</p></div>
+    <div class="card"><h3>Typography & Layout</h3><p>Font family, size, line height, weight, plus border radius and shadow intensity.</p></div>
+    <div class="card"><h3>Custom CSS</h3><p>Write your own CSS with validation and one-click reset.</p></div>
+    <div class="card"><h3>100% Local-first</h3><p>No analytics, no tracking, no ads, no data collection.</p></div>
+  </div>
+</section>
+
+<section id="preview" class="section alt">
+  <h2>Theme Preview</h2>
+  <div class="theme-strip" id="themeStrip"></div>
+</section>
+
+<section id="builder" class="section">
+  <h2>Theme Builder Preview</h2>
+  <div class="builder-preview">
+    <div class="builder-controls">
+      <div class="swatch-row"><span>Background</span><i style="background:#0d1117"></i></div>
+      <div class="swatch-row"><span>Accent</span><i style="background:#00c2d7"></i></div>
+      <div class="swatch-row"><span>Text</span><i style="background:#e6edf3"></i></div>
+      <div class="swatch-row"><span>Border</span><i style="background:#30363d"></i></div>
+    </div>
+    <p>Every color on GitHub — navbar, sidebar, buttons, code blocks and more — can be tuned individually and saved as your own theme.</p>
+  </div>
+</section>
+
+<section id="how" class="section alt">
+  <h2>How It Works</h2>
+  <div class="grid grid-3">
+    <div class="card"><h3>1. Install</h3><p>Add VELNAR from the Chrome Web Store or load it unpacked.</p></div>
+    <div class="card"><h3>2. Pick a theme</h3><p>Choose a preset or open the Theme Builder to design your own.</p></div>
+    <div class="card"><h3>3. Browse GitHub</h3><p>Your theme applies instantly and persists across navigation.</p></div>
+  </div>
+</section>
+
+<section id="privacy" class="section">
+  <h2>Privacy</h2>
+  <p class="privacy-text">VELNAR never collects analytics, never tracks you, and never sends data to any server. All settings are stored locally in your browser using the Chrome Storage API. No GitHub tokens, cookies, or personal data are ever accessed or stored.</p>
+</section>
+
+<section id="faq" class="section alt">
+  <h2>FAQ</h2>
+  <div class="faq-list">
+    <details><summary>Does VELNAR change GitHub's functionality?</summary><p>No — VELNAR only changes appearance. All GitHub features work exactly as before.</p></details>
+    <details><summary>Is my data sent anywhere?</summary><p>No. VELNAR is fully local-first, everything stays in your browser.</p></details>
+    <details><summary>Can I write my own CSS?</summary><p>Yes, the Custom CSS panel lets you write and validate your own styles.</p></details>
+    <details><summary>Which browsers are supported?</summary><p>Chrome and Edge today, with Firefox support planned.</p></details>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-brand"><img class="brand-logo" src="../extension/icons/icon48.png" alt="VELNAR" />VELNAR</div>
+  <div class="footer-links">
+    <a href="https://github.com/" target="_blank" rel="noopener">GitHub Repository</a>
+    <a href="#privacy">Privacy</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <p class="footer-note">Open source, local-first, no tracking.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
