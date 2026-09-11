@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "browser": "152.0.4191.66",
+  "fixture": "local HTML routed at github.com/velnar-cinema",
+  "worlds": [
+    {
+      "id": "spider-man",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
+    },
+    {
+      "id": "the-last-of-us",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
+    },
+    {
+      "id": "red-dead",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
+    },
+    {
+      "id": "rick-and-morty",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
+    },
+    {
+      "id": "iron-man",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
+    }
+  ],
+  "reducedMotion": true,
+  "cleanup": true,
+  "mobile": true,
+  "errors": []
+}

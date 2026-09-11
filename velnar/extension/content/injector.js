@@ -33,23 +33,56 @@ VELNAR.Injector = {
     if (layout) {
       css += `  --gs-radius: ${layout.borderRadius ?? 8}px;\n`;
       css += `  --gs-shadow-opacity: ${(layout.shadowIntensity ?? 30) / 100};\n`;
+      css += `  --gs-shadow-effective: color-mix(in srgb, var(--gs-shadow) ${layout.shadowIntensity ?? 30}%, transparent);\n`;
     }
     css += "}\n\n";
+    css += this._primerCss();
     css += this._baseCss();
-    tag.textContent = css;
+    if (tag.textContent !== css) tag.textContent = css;
+  },
+
+  // Primer React uses semantic tokens even when its generated class names change.
+  // Include nested ThemeProviders: declarations on :root alone do not override them.
+  // Token reference: https://primer.style/product/primitives/color/
+  _primerDeclarations(tokens) {
+    return `:root, [data-color-mode], [data-color-scheme], [data-light-theme], [data-dark-theme] {\n${Object.entries(tokens).map(([name, value]) => `  --${name}: ${value} !important;`).join("\n")}\n}\n`;
+  },
+
+  _primerCss() {
+    const tokens = {};
+    const map = (names, value) => names.split(" ").forEach(name => { tokens[name] = value; });
+    map("bgColor-default bgColor-inset color-canvas-default color-canvas-inset", "var(--gs-bg)");
+    map("bgColor-muted color-canvas-subtle", "var(--gs-bg-secondary)");
+    map("bgColor-neutral-muted bgColor-disabled color-neutral-muted", "var(--gs-bg-tertiary)");
+    map("fgColor-default color-fg-default", "var(--gs-text-primary)");
+    map("fgColor-muted fgColor-neutral color-fg-muted", "var(--gs-text-secondary)");
+    map("fgColor-disabled color-fg-subtle color-primer-fg-disabled", "var(--gs-text-tertiary)");
+    map("fgColor-link fgColor-accent color-accent-fg", "var(--gs-link)");
+    map("borderColor-default color-border-default", "var(--gs-border)");
+    map("borderColor-muted borderColor-neutral-muted color-border-muted color-border-subtle", "var(--gs-border-muted)");
+    map("borderColor-emphasis borderColor-neutral-emphasis color-neutral-emphasis", "var(--gs-scrollbar-thumb)");
+    map("borderColor-accent-emphasis focus-outlineColor color-accent-emphasis", "var(--gs-accent)");
+    map("bgColor-accent-muted color-accent-subtle", "color-mix(in srgb, var(--gs-accent) 14%, var(--gs-bg))");
+    // Preserve semantic status/diff colors, transparent surfaces and scrim tokens.
+    return this._primerDeclarations(tokens);
   },
 
   // rule haii ke hamishe active hastan, mostaghel az inke kodum component roshane
   _baseCss() {
     return `
 html, body { background-color: var(--gs-bg) !important; color: var(--gs-text-primary) !important; }
+.color-bg-default, .color-bg-inset, .bgColor-default, .bgColor-inset {
+  background-color: var(--gs-bg) !important;
+}
+.color-bg-subtle, .bgColor-muted { background-color: var(--gs-bg-secondary) !important; }
+.color-bg-emphasis, .bgColor-emphasis { background-color: var(--gs-text-primary) !important; color: var(--gs-bg) !important; }
 a { color: var(--gs-link); }
 a:hover { color: var(--gs-link-hover); }
 ::selection { background: var(--gs-accent); color: var(--gs-button-text); }
 ::-webkit-scrollbar { width: 12px; height: 12px; }
 ::-webkit-scrollbar-thumb { background: var(--gs-scrollbar-thumb) !important; border-radius: 8px; }
 ::-webkit-scrollbar-track { background: var(--gs-bg-secondary) !important; }
-.color-fg-default, .color-fg-muted, p, span, div, li { color: var(--gs-text-primary); }
+.color-fg-default { color: var(--gs-text-primary); }
 .color-fg-muted, .text-small.color-fg-muted { color: var(--gs-text-secondary) !important; }
 .color-fg-subtle { color: var(--gs-text-tertiary) !important; }
 .color-fg-success, .octicon-check.color-fg-success { color: var(--gs-success) !important; }
@@ -78,7 +111,7 @@ dialog::backdrop,
   _componentBlocks() {
     return {
       navbar: `
-header.AppHeader, div[data-testid="global-navigation"], .Header, .AppHeader-globalBar, .AppHeader-context {
+.AppHeader, div[data-testid="global-navigation"], .Header, .AppHeader-globalBar, .AppHeader-context {
   background-color: var(--gs-navbar-bg) !important;
   color: var(--gs-navbar-text) !important;
   border-color: var(--gs-border) !important;
@@ -108,7 +141,8 @@ header.AppHeader summary, .AppHeader-actions summary {
 }`,
 
       sidebar: `
-.Layout-sidebar, .BorderGrid, aside[aria-label], .repository-content .Layout-sidebar {
+.Layout-sidebar, .BorderGrid, aside[aria-label], .repository-content .Layout-sidebar,
+.dashboard-sidebar, .feed-left-sidebar, .feed-right-sidebar {
   background-color: var(--gs-sidebar-bg) !important;
   border-color: var(--gs-border) !important;
 }`,
@@ -130,7 +164,7 @@ header.AppHeader summary, .AppHeader-actions summary {
   color: var(--gs-text-primary) !important;
   border: 1px solid var(--gs-border) !important;
   border-radius: var(--gs-radius) !important;
-  box-shadow: none !important;
+  box-shadow: none;
 }
 .btn:hover, .Button:hover { background-color: var(--gs-hover-bg) !important; border-color: var(--gs-accent) !important; }
 .btn:active, .Button:active { background-color: var(--gs-active-bg) !important; }
@@ -139,7 +173,7 @@ header.AppHeader summary, .AppHeader-actions summary {
   background-color: var(--gs-button) !important;
   color: var(--gs-button-text) !important;
   border-color: transparent !important;
-  box-shadow: 0 2px 8px var(--gs-shadow) !important;
+  box-shadow: 0 2px 8px var(--gs-shadow-effective, var(--gs-shadow));
 }
 .btn-primary:hover, .Button--primary:hover, [data-variant="primary"]:hover {
   background-color: var(--gs-button-hover) !important;
@@ -240,7 +274,7 @@ pre, code, .highlight, .blob-code, .blob-code-inner, .react-code-text, .CodeMirr
   background-color: var(--gs-dropdown-bg) !important;
   border-color: var(--gs-border) !important;
   border-radius: var(--gs-radius) !important;
-  box-shadow: 0 8px 24px var(--gs-shadow) !important;
+  box-shadow: 0 8px 24px var(--gs-shadow-effective, var(--gs-shadow)) !important;
 }
 .tooltipped::after { background-color: var(--gs-tooltip-bg) !important; }
 [role="menuitem"]:hover, .SelectMenu-item:hover { background-color: var(--gs-hover-bg) !important; }
@@ -303,17 +337,51 @@ pre, code, .highlight, .blob-code, .blob-code-inner, .react-code-text, .CodeMirr
     return css;
   },
 
+  _componentTokens() {
+    const tokens = { navbar: {}, buttons: {}, inputs: {}, dropdowns: {} };
+    const map = (component, names, value) => names.split(" ").forEach(name => { tokens[component][name] = value; });
+    map("navbar", "header-bgColor color-header-bg", "var(--gs-navbar-bg)");
+    map("navbar", "header-fgColor-default header-fgColor-logo color-header-text color-header-logo", "var(--gs-navbar-text)");
+    map("navbar", "header-borderColor-divider", "var(--gs-border)");
+    map("buttons", "button-default-bgColor-rest color-btn-bg", "var(--gs-bg-tertiary)");
+    map("buttons", "button-default-bgColor-hover color-btn-hover-bg button-invisible-bgColor-hover button-outline-bgColor-rest", "var(--gs-hover-bg)");
+    map("buttons", "button-default-bgColor-active button-default-bgColor-selected color-btn-active-bg color-btn-selected-bg button-invisible-bgColor-active", "var(--gs-active-bg)");
+    map("buttons", "button-default-fgColor-rest button-invisible-fgColor-rest button-invisible-fgColor-hover button-invisible-fgColor-active color-btn-text", "var(--gs-text-primary)");
+    map("buttons", "button-default-borderColor-rest button-default-borderColor-hover button-default-borderColor-active color-btn-border color-btn-hover-border", "var(--gs-border)");
+    map("buttons", "button-default-bgColor-disabled button-primary-bgColor-disabled", "var(--gs-bg-tertiary)");
+    map("buttons", "button-default-fgColor-disabled button-primary-fgColor-disabled button-invisible-fgColor-disabled", "var(--gs-text-tertiary)");
+    map("buttons", "button-invisible-iconColor-rest button-invisible-iconColor-hover", "var(--gs-text-secondary)");
+    map("buttons", "button-primary-bgColor-rest color-btn-primary-bg", "var(--gs-button)");
+    map("buttons", "button-primary-bgColor-hover button-primary-bgColor-active color-btn-primary-hover-bg color-btn-primary-selected-bg", "var(--gs-button-hover)");
+    map("buttons", "button-primary-fgColor-rest button-primary-iconColor-rest color-btn-primary-text", "var(--gs-button-text)");
+    map("buttons", "button-primary-borderColor-rest button-primary-borderColor-hover button-primary-borderColor-active color-btn-primary-border", "var(--gs-button)");
+    map("inputs", "control-bgColor-rest control-bgColor-selected color-input-bg", "var(--gs-bg-secondary)");
+    map("inputs", "control-bgColor-hover control-transparent-bgColor-hover", "var(--gs-hover-bg)");
+    map("inputs", "control-bgColor-active control-transparent-bgColor-active control-transparent-bgColor-selected", "var(--gs-active-bg)");
+    map("inputs", "control-borderColor-rest control-borderColor-selected color-input-border", "var(--gs-border)");
+    map("inputs", "control-fgColor-rest", "var(--gs-text-primary)");
+    map("inputs", "control-fgColor-placeholder control-iconColor-rest", "var(--gs-text-secondary)");
+    map("inputs", "control-checked-bgColor-rest control-checked-bgColor-hover control-checked-bgColor-active control-checked-borderColor-rest", "var(--gs-button)");
+    map("inputs", "control-checked-fgColor-rest", "var(--gs-button-text)");
+    map("dropdowns", "overlay-bgColor color-canvas-overlay", "var(--gs-dropdown-bg)");
+    map("dropdowns", "overlay-borderColor", "var(--gs-border)");
+    return tokens;
+  },
+
   applyComponents(overrides) {
     const tag = this._getOrCreateTag(VELNAR.COMPONENTS_TAG_ID);
     const blocks = this._componentBlocks();
+    const componentTokens = this._componentTokens();
     let css = "";
     VELNAR.COMPONENTS.forEach((c) => {
       if (!overrides || overrides[c.id] !== false) {
+        const tokens = componentTokens[c.id];
+        if (tokens) css += this._primerDeclarations(tokens);
         css += blocks[c.id] || "";
         css += "\n";
       }
     });
-    tag.textContent = css;
+    if (tag.textContent !== css) tag.textContent = css;
   },
 
   // "tem motaharek" - vaghti roshan bashe, gradient e navbar mikeshe, dokme haye primary
@@ -327,72 +395,29 @@ pre, code, .highlight, .blob-code, .blob-code-inner, .react-code-text, .CodeMirr
       tag.textContent = "";
       return;
     }
-    let css = `
-@keyframes velnar-pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--gs-accent-rgb), 0.45); }
-  50% { box-shadow: 0 0 18px 4px rgba(var(--gs-accent2-rgb), 0.55); }
+    const on = id => !overrides || overrides[id] !== false;
+    let css = `@keyframes velnar-pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--gs-accent-rgb), 0.35); }
+  50% { box-shadow: 0 0 16px 3px rgba(var(--gs-accent2-rgb), 0.45); }
 }
-@keyframes velnar-gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-@keyframes velnar-underline-grow {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-
-a, .btn, .Button, .Box, .Box-row, input, textarea, [class*="ButtonBase"] {
-  transition: background-color 0.18s ease, border-color 0.18s ease,
-              color 0.18s ease, transform 0.14s ease, box-shadow 0.2s ease !important;
-}
-
+@keyframes velnar-gradient-shift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes velnar-rgb-hue { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
+@media (prefers-reduced-motion: no-preference) {
+`;
+    if (on("navbar")) css += `
 header.AppHeader, .AppHeader-globalBar {
-  background-image: linear-gradient(120deg,
-    var(--gs-navbar-bg) 0%,
-    rgba(var(--gs-accent-rgb), 0.20) 22%,
-    rgba(var(--gs-accent-rgb), 0.08) 40%,
-    rgba(var(--gs-accent2-rgb), 0.08) 60%,
-    rgba(var(--gs-accent2-rgb), 0.20) 78%,
-    var(--gs-navbar-bg) 100%) !important;
+  background-image: linear-gradient(120deg, var(--gs-navbar-bg), rgba(var(--gs-accent-rgb), .12), rgba(var(--gs-accent2-rgb), .12), var(--gs-navbar-bg)) !important;
   background-size: 280% 280% !important;
-  animation: velnar-gradient-shift 16s cubic-bezier(0.45, 0, 0.55, 1) infinite !important;
-}
-
-.btn-primary, .Button--primary, [data-variant="primary"] {
-  animation: velnar-pulse-glow 2.6s ease-in-out infinite;
-}
-
-.Box:hover, .Box-row:hover { transform: translateY(-2px); }
-.btn:hover, .Button:hover { transform: translateY(-1px); }
-a:hover { text-shadow: 0 0 8px rgba(var(--gs-accent-rgb), 0.4); }
-
-.UnderlineNav-item.selected::after, .UnderlineItem[aria-current]::after {
-  animation: velnar-underline-grow 0.25s ease-out;
-  transform-origin: left;
-}
+  animation: velnar-gradient-shift 16s ease-in-out infinite !important;
+}`;
+    if (on("buttons")) css += `
+.btn, .Button { transition: background-color .18s ease, box-shadow .2s ease; }
+.btn-primary, .Button--primary, [data-variant="primary"] { animation: velnar-pulse-glow 2.6s ease-in-out infinite; }
 `;
+    if (on("repoCards")) css += `.Box, .Box-row { transition: background-color .18s ease; }`;
+    // RGB cycling belongs to the graph. Keeping buttons stable preserves text contrast.
+    css += "}\n";
 
-    // "Gaming" theme haii ke rgbCycle: true daran - ye hue-rotate e dayemi ru dokme haye
-    // primary mizanim (mesle keycap/mouse haye RGB). chun hue-rotate faghat "hue" ro
-    // migardune (na luminance), contrast e text sefid/siah e ruye dokme dast nemikhore -
-    // faghat khode rang e background dokme mesle rainbow micheh
-    if (rgbCycle) {
-      css += `
-@keyframes velnar-rgb-hue {
-  0% { filter: hue-rotate(0deg) saturate(1.35); }
-  100% { filter: hue-rotate(360deg) saturate(1.35); }
-}
-.btn-primary, .Button--primary, [data-variant="primary"] {
-  animation: velnar-pulse-glow 2.6s ease-in-out infinite, velnar-rgb-hue 5s linear infinite;
-}
-`;
-    }
-
-    // "Contribution Graph" component ham roshan bashe ham animation active bashe
-    // in ye block e joda va daghigh tare - hala ye "mouje nafas keshidan" e vagheiam
-    // daare ke mesle ghabl faghat ye bar ejra nemishe, balke har 6 sanie az chap be
-    // rast az ruye sotoun ha ubur mikone (chun delay az hamun --velnar-stagger miad)
     if (!overrides || overrides.contributionGraph !== false) {
       css += this._contributionStaggerCss();
       css += `
@@ -466,7 +491,7 @@ a:hover { text-shadow: 0 0 8px rgba(var(--gs-accent-rgb), 0.4); }
 }`;
     }
 
-    tag.textContent = css;
+    if (tag.textContent !== css) tag.textContent = css;
   },
 
 
@@ -488,7 +513,7 @@ a:hover { text-shadow: 0 0 8px rgba(var(--gs-accent-rgb), 0.4); }
     if (typography.codeFont) {
       css += `pre, code, .blob-code, .CodeMirror { font-family: ${typography.codeFont} !important; }\n`;
     }
-    tag.textContent = css;
+    if (tag.textContent !== css) tag.textContent = css;
   },
 
   applyCustomCss(cssText, enabled) {

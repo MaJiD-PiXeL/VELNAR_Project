@@ -17,7 +17,7 @@
       return settings.customTheme.colors || settings.customTheme;
     }
     const themeId = resolveActiveThemeId(settings);
-    const theme = VELNAR.getThemeById(themeId) || VELNAR.PRESET_THEMES[0];
+    const theme = VELNAR.getThemeById(themeId) || VELNAR.getThemeById("dark");
     return theme.colors;
   }
 
@@ -31,7 +31,9 @@
   }
 
   function applyAll(settings) {
+    const activePreset = settings.customThemeApplied && !settings.autoDarkMode ? null : VELNAR.getThemeById(resolveActiveThemeId(settings));
     if (!settings.enabled) {
+      VELNAR.Cinema.apply(null, settings);
       VELNAR.Injector.removeAll();
       return;
     }
@@ -40,6 +42,7 @@
     VELNAR.Injector.applyComponents(settings.componentOverrides);
     VELNAR.Injector.applyTypography(settings.typography);
     VELNAR.Injector.applyAnimations(settings.animationsEnabled, settings.componentOverrides, resolveRgbCycle(settings));
+    VELNAR.Cinema.apply(activePreset, settings);
     VELNAR.Injector.applyWebSwinger(settings.webSwingerEnabled, colors);
     VELNAR.Injector.applyCustomCss(settings.customCss, settings.customCssEnabled);
   }

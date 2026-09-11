@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "VELNAR - Customize Your GitHub",
-  "version": "2.0.0",
-  "description": "Make GitHub yours with 30 themes, a custom theme builder, typography and optional animations. Private by design.",
+  "version": "2.1.0",
+  "description": "Make GitHub yours with 35 themes, including five cinematic worlds with unique animations. Private by design.",
   "author": "VELNAR",
   "icons": {
     "16": "icons/icon16.png",
@@ -21,28 +21,42 @@
   "background": {
     "service_worker": "background/service-worker.js"
   },
-  "permissions": ["storage"],
-  "host_permissions": ["https://github.com/*"],
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://github.com/*"
+  ],
   "commands": {
     "toggle-extension": {
-      "suggested_key": { "default": "Ctrl+Shift+G", "mac": "Command+Shift+G" },
+      "suggested_key": {
+        "default": "Ctrl+Shift+G",
+        "mac": "Command+Shift+G"
+      },
       "description": "Toggle VELNAR"
     },
     "random-theme": {
-      "suggested_key": { "default": "Alt+Shift+R", "mac": "Alt+Shift+R" },
+      "suggested_key": {
+        "default": "Alt+Shift+R",
+        "mac": "Alt+Shift+R"
+      },
       "description": "Choose a random theme"
     }
   },
   "content_scripts": [
     {
-      "matches": ["https://github.com/*"],
+      "matches": [
+        "https://github.com/*"
+      ],
       "run_at": "document_start",
       "js": [
         "utils/constants.js",
         "themes/presets.js",
+        "themes/scene-art.js",
         "utils/validator.js",
         "utils/storage.js",
         "content/injector.js",
+        "content/cinema.js",
         "content/observer.js",
         "content/content.js"
       ]

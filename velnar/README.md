@@ -1,207 +1,87 @@
 # VELNAR
 
-Make GitHub yours. VELNAR is a browser extension that lets you fully
-customize the appearance of GitHub — themes, colors, typography and custom
-CSS — without touching any of GitHub's actual functionality.
+Make GitHub yours. A private, local-first Chrome and Edge extension with 35 themes, 30 editable colors, typography controls and optional animations.
 
-100% local-first. No analytics, no tracking, no ads, no data collection.
+## Install
+
+1. Extract `dist/velnar-extension.zip`.
+2. Open `chrome://extensions` or `edge://extensions`.
+3. Enable **Developer mode**, choose **Load unpacked**, and select the extracted folder containing `manifest.json`.
+4. Visit GitHub and open **VELNAR** in your browser toolbar.
+
+For development, load the `extension/` directory directly. Chrome/Edge 111 or newer is required. No bundler or server is needed for the extension.
 
 ## Features
 
-- **30 built-in themes** — Dark, Light, Midnight, Cyberpunk, AMOLED, Dracula,
-  GitHub Classic, Nord, Solarized Dark/Light, Monokai, One Dark, Gruvbox
-  Dark, Tokyo Night, Catppuccin Mocha, Rosé Pine, Synthwave '84, plus 9
-  hand-designed **Vivid** two-tone themes (Aurora, Sunset Blaze, Neon Tokyo,
-  Vaporwave, Emerald Forest, Royal Purple, Blood Moon, Arctic Ice, Peach
-  Sorbet), and 4 **Gaming 🎮** themes with live RGB color-cycling (RGB
-  Chroma, Esports Arena, Neon Grid, Overclock). Several themes carry a
-  second accent color, so gradients and glows shift between two tones
-  instead of a single flat color — and the 4 Gaming themes go further,
-  continuously cycling primary buttons and high-activity contribution-graph
-  cells through the full hue spectrum, like RGB gaming hardware.
-- **✨ Animated theme** — an optional toggle that adds a subtle two-tone
-  gradient shift to the navbar, a pulsing glow on primary buttons (color
-  travels between your theme's two accents), and smooth transitions across
-  hover states. The **contribution graph** gets its own dedicated animation
-  system: a staggered week-by-week wave entrance, a continuous "breathing"
-  wave that travels across the grid every few seconds, a two-tone glow on
-  your most active days, a light shimmer sweep, and a hover pop — plus it
-  recolors from GitHub's fixed green to your theme's accent colors. Fully
-  respects `prefers-reduced-motion`.
-- **Deep Theme Builder** — customize 28 individual colors, grouped into
-  Surfaces, Text, Interactive, Borders/Overlays/Code, and Status — every one
-  with a live color picker. Includes layout controls for border radius and
-  shadow intensity.
-- **Per-component control** — 18 GitHub areas (navbar, sidebar, repository
-  cards, buttons, inputs, search box, code blocks, markdown, issues, pull
-  requests, profile, followers/following, notifications, commit list, file
-  explorer, dropdowns/menus, diffs/code review, contribution graph) can each
-  be turned on or off independently, so theming touches only what you want
-  it to.
-- **Typography controls** — font family, font size, line height, font
-  weight, and a separate code font.
-- **Auto Dark Mode** — follows your OS light/dark preference live, mapped to
-  any two themes you choose.
-- **Favorites & Random Theme** — star your favorite themes for quick access,
-  or hit the dice button to jump to a random one.
-- **🕸️ Web Swinger easter egg** — an optional, off-by-default toggle that
-  makes a generic masked hero silhouette swing across the screen on a
-  thread every so often, but only on your profile page. It's drawn in your
-  theme's own accent colors, not any trademarked character design, and it
-  respects `prefers-reduced-motion` too.
-- **Keyboard shortcuts** — `Ctrl+Shift+G` toggles the extension on/off,
-  `Ctrl+Shift+R` switches to a random theme, from anywhere.
-- **Custom CSS** — an advanced panel for writing your own CSS, with
-  validation before it's applied and a one-click reset.
-- **Import / Export** — export any theme as a JSON file and import it later,
-  plus full settings backup and restore.
-- **SPA-aware** — GitHub is a single-page app; VELNAR listens for
-  in-page navigation so your theme survives without needing a full reload.
+- Five cinematic themes: Spider-Man, The Last of Us, Red Dead, Rick and Morty, and Iron Man, each with original vector artwork and distinct animated effects.
+- 30 additional official, community, vivid and gaming palettes, searchable in the popup and settings.
+- Favorites, random themes, and automatic light/dark selection based on your system.
+- Theme Builder with 30 color controls and a live preview before applying.
+- 18 component switches, global typography, border radius and shadow intensity.
+- Optional animations that respect reduced-motion preferences; disabled components do not animate.
+- Custom CSS with size, delimiter and external-resource checks.
+- Theme import/export and complete settings backup/restore with validation.
+- Accessible keyboard controls, save feedback and live synchronization across settings windows.
+- SPA navigation support, including restoration of removed styles.
 
-## Installation
+Shortcuts: **Ctrl+Shift+G** (macOS: **Command+Shift+G**) toggles the extension; **Alt+Shift+R** selects a random theme. Customize them in your browser's extension-shortcut settings if needed.
 
-### From source (Developer Mode)
+Manual theme selection, import and random selection turn automatic system theme selection off. Background and typography remain global when individual component rules are disabled. Styles target GitHub selectors; changes to GitHub's markup may require maintenance.
 
-1. Download or clone this repository.
-2. Open `chrome://extensions` (or `edge://extensions` in Microsoft Edge).
-3. Enable **Developer mode** (top right corner).
-4. Click **Load unpacked** and select the `extension/` folder.
-5. Visit [github.com](https://github.com) — VELNAR is now active.
+## Cinematic collection
 
-### From the Chrome Web Store
+Open **Themes → Cinematic collection** or choose a cinematic card in the popup. Selecting one also enables animations. Use **Settings → Animations** to pause effects while keeping the palette.
 
-Once published, VELNAR will be available directly from the Chrome Web
-Store. A link will be added here.
+| Theme | Effects |
+| --- | --- |
+| Spider-Man | Drawing corner webs, red/blue tracers and charged buttons |
+| The Last of Us | Swaying fungal branches, drifting spores and firefly glows |
+| Red Dead | Sunset silhouettes, frontier dust and ember contributions |
+| Rick and Morty | Rotating portals, floating particles and green energy pulses |
+| Iron Man | Counter-rotating reactor rings, HUD traces and repulsor glows |
 
-## Development
+**Preview animations** opens an interactive demo repository inside the extension. Switch between all five worlds, pause motion and apply a theme to GitHub. For a preview without installing, open `extension/preview/preview.html`; applying a theme requires the installed extension.
 
-The project requires no build step for the extension itself — it's plain
-HTML/CSS/JS, loaded directly by the browser.
+Effects respect system reduced-motion preferences and stop while the GitHub tab is hidden. The **Profile & cinematic atmosphere** switch controls the decorative margin layer; navbar, button and contribution effects follow their respective component switches. Decorations never capture clicks or keyboard focus and shrink on small screens. All artwork is bundled locally, without network requests.
 
-```
-velnar/
-├── extension/
-│   ├── manifest.json          # Manifest V3 config
-│   ├── background/
-│   │   └── service-worker.js  # installs default settings
-│   ├── content/
-│   │   ├── content.js         # entry point, wires everything together
-│   │   ├── injector.js        # builds and injects <style> tags
-│   │   └── observer.js        # detects GitHub SPA navigation
-│   ├── popup/                 # toolbar popup (quick theme switch)
-│   ├── options/                # full settings dashboard
-│   ├── themes/
-│   │   └── presets.js         # the 7 built-in themes
-│   ├── components/
-│   │   └── colorpicker.js     # reusable color input component
-│   ├── utils/
-│   │   ├── constants.js       # shared constants / CSS var map
-│   │   ├── storage.js         # chrome.storage.local wrapper
-│   │   └── validator.js       # custom CSS validation
-│   ├── styles/                # UI styles for popup/options (not GitHub)
-│   └── icons/                 # extension icons (generated via Python)
-├── assets/
-│   └── logo-source.png        # official VELNAR mark, source for icon128
-├── landing/                    # marketing / landing page
-├── scripts/
-│   ├── generate_icons.py      # Python script that generates the icons
-│   └── build_zip.py           # packages extension/ into a Web Store zip
-├── README.md
-├── LICENSE
-├── CONTRIBUTING.md
-├── SECURITY.md
-├── CHANGELOG.md
-└── .gitignore
+## Brand
+
+The supplied VELNAR V/N monogram is the same mark used in the latest VELNAR website design. The original vector is in `assets/velnar-mark.svg`; PNG exports and browser icons are generated from it without redrawing the mark.
+
+## Development and checks
+
+- `extension/`: installable extension source.
+- `landing/`: static introduction and ZIP download link. Serve the project root to preview it.
+- `assets/`: canonical vector logo and large PNG export.
+- `tests/`: regression checks and real-browser smoke tests.
+- `scripts/`: icon generation and ZIP packaging.
+
+```sh
+npm install
+npm test
+npm run icons
+python scripts/build_zip.py
 ```
 
-### Regenerating icons
+Python 3 is needed only for packaging. `sharp` is used only to generate PNG icons; the installed extension has no runtime dependencies. The ZIP contains only `extension/` files, with the manifest at its root.
 
-All three icon sizes (`icon16.png`, `icon48.png`, `icon128.png`) are
-generated directly from `assets/logo-source.png` — the official VELNAR mark,
-resized only, with no simplification or substitution.
+Browser smoke tests use Playwright and a separate, disposable browser profile:
 
-```bash
-pip install Pillow
-python3 scripts/generate_icons.py
+```sh
+npm install --no-save playwright
+# Set VELNAR_BROWSER to an Edge/Chromium executable if required.
+node tests/browser-smoke.cjs
+node tests/cinematic-smoke.cjs
 ```
 
-## Build
+## Existing installations
 
-There is no bundler in this project — it ships as plain files. To produce a
-distributable ZIP for the Chrome Web Store:
-
-```bash
-python3 scripts/build_zip.py
-```
-
-This creates `dist/velnar-extension.zip`, containing only the contents of
-`extension/`, ready for upload.
-
-## Usage
-
-1. Click the VELNAR icon in your toolbar to open the popup.
-2. Pick a theme, or toggle the extension on/off.
-3. Click **Open Settings** for the full dashboard: Theme Builder, Typography,
-   Custom CSS, Import/Export, and general Settings.
-
-## Theme Creation
-
-Open **Options → Theme Builder**, adjust any of the 28 available colors
-(grouped by Surfaces, Text, Interactive, Borders, and Status) using the
-color pickers, tune border radius / shadow intensity under Advanced, give
-your theme a name, and click **Apply Custom Theme**. It becomes active
-immediately. Use the **Components** tab to limit theming to specific areas
-of GitHub if you only want part of the site restyled.
-
-## Import / Export
-
-- **Export Theme**: downloads the currently active theme as a `.json` file.
-- **Import Theme**: pick a previously exported `.json` file to apply it.
-- **Backup / Restore Settings**: back up your entire configuration
-  (theme, typography, custom CSS, toggles) and restore it later or on
-  another machine.
+The new settings key is `velnar_settings_v1`. Existing settings under earlier brand keys are migrated when upgrading the same browser extension. Installing the renamed folder as a separate unpacked extension may receive a different extension ID; export your old settings and restore that backup in VELNAR in that case. Old theme JSON exports remain supported.
 
 ## Privacy
 
-VELNAR is local-first by design:
-
-- No analytics or tracking of any kind.
-- No ads.
-- No data is ever sent to a server — everything lives in
-  `chrome.storage.local` on your own machine.
-- No GitHub tokens, cookies, or session data are accessed or stored.
-
-## Publishing to GitHub
-
-```bash
-git init
-git add .
-git commit -m "Initial release: VELNAR 1.0.0"
-git branch -M main
-git remote add origin <your-repo-url>
-git push -u origin main
-```
-
-## Preparing for the Chrome Web Store
-
-1. Run `python3 scripts/build_zip.py` to produce `dist/velnar-extension.zip`.
-2. Go to the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole).
-3. Create a new item and upload the ZIP.
-4. Fill in the store listing (description, screenshots, privacy practices —
-   VELNAR collects no data, so this section is straightforward).
-5. Submit for review.
-
-## Browser Support
-
-- Google Chrome
-- Microsoft Edge (Chromium-based)
-- Firefox support is planned; the codebase avoids Chrome-only APIs where
-  possible to ease a future port.
-
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+Preferences stay in `chrome.storage.local`. There are no accounts, trackers, analytics or remote assets. Custom CSS cannot load URLs, imports or external fonts. Font-family controls use fonts already installed on your computer. No GitHub tokens or cookies are read.
 
 ## License
 
-[MIT](LICENSE)
+MIT. See `LICENSE`.

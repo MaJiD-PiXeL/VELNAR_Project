@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "browser": "152.0.4191.66",
+  "fixture": "Representative Primer dashboard with sample data; not a signed-in GitHub page",
+  "themes": [
+    "spider-man",
+    "the-last-of-us",
+    "red-dead",
+    "rick-and-morty",
+    "iron-man",
+    "dark",
+    "light"
+  ],
+  "lateStyles": true,
+  "dynamicFeed": true,
+  "componentToggles": true,
+  "disableCleanup": true,
+  "mobile": true,
+  "errors": []
+}

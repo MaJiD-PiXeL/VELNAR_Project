@@ -4,7 +4,7 @@ globalThis.VELNAR = globalThis.VELNAR || {};
 
 VELNAR.ColorPicker = {
   // container: HTMLElement, options: {label, value, onChange}
-  create(container, { label, value, onChange }) {
+  create(container, { label, value, onChange, hexOnly = false }) {
     const wrap = document.createElement("div");
     wrap.className = "gs-color-field";
 
@@ -16,24 +16,41 @@ VELNAR.ColorPicker = {
 
     const swatch = document.createElement("input");
     swatch.type = "color";
-    swatch.value = value || "#000000";
+    const asHex = (color) => {
+      if (/^#[\da-f]{6}$/i.test(color || "")) return color;
+      if (/^#[\da-f]{3}$/i.test(color || "")) return "#" + color.slice(1).split("").map(c => c + c).join("");
+      const parts = (color || "").match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+      return parts ? "#" + parts.slice(1, 4).map(part => Number(part).toString(16).padStart(2, "0")).join("") : "#000000";
+    };
+    swatch.value = asHex(value);
+    swatch.setAttribute("aria-label", label + " color picker");
     swatch.className = "gs-color-swatch";
 
     const hexInput = document.createElement("input");
     hexInput.type = "text";
     hexInput.className = "gs-input gs-color-hex";
     hexInput.value = value || "#000000";
+    hexInput.setAttribute("aria-label", label + " color value");
+    hexInput.maxLength = 40;
 
     swatch.addEventListener("input", () => {
       hexInput.value = swatch.value;
+      hexInput.setCustomValidity("");
+      hexInput.removeAttribute("aria-invalid");
       onChange(swatch.value);
     });
 
     hexInput.addEventListener("change", () => {
       const hex = hexInput.value.trim();
-      if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(hex)) {
-        swatch.value = hex;
+      if (VELNAR.Validator.isColor(hex) && (!hexOnly || hex.startsWith("#"))) {
+        hexInput.setCustomValidity("");
+        hexInput.removeAttribute("aria-invalid");
+        swatch.value = asHex(hex);
         onChange(hex);
+      } else {
+        hexInput.setCustomValidity(hexOnly ? "Use a hex color." : "Use a hex or rgb/rgba color.");
+        hexInput.setAttribute("aria-invalid", "true");
+        hexInput.reportValidity();
       }
     });
 
@@ -45,7 +62,7 @@ VELNAR.ColorPicker = {
 
     return {
       setValue(v) {
-        swatch.value = v;
+        swatch.value = asHex(v);
         hexInput.value = v;
       }
     };
