@@ -16,5 +16,10 @@
   "componentToggles": true,
   "disableCleanup": true,
   "mobile": true,
+  "sceneBanner": true,
+  "reactRecovery": true,
+  "pause": true,
+  "reducedMotion": true,
+  "routeCleanup": true,
   "errors": []
 }

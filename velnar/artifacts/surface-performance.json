@@ -1,0 +1,22 @@
+{
+  "fixture": "Representative GitHub profile and changelog with sample data; isolated Edge extension session",
+  "before": {
+    "version": "2.2.0",
+    "cellCount": 371,
+    "cellAnimations": 371,
+    "documentAnimations": 373,
+    "paintAnimations": 371,
+    "themeCssBytes": 32135,
+    "errors": []
+  },
+  "after": {
+    "version": "2.2.1",
+    "cellCount": 371,
+    "cellAnimations": 0,
+    "documentAnimations": 1,
+    "paintAnimations": 0,
+    "themeCssBytes": 24828,
+    "errors": []
+  },
+  "passed": true
+}

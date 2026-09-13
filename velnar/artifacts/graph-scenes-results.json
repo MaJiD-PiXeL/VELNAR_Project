@@ -1,0 +1,70 @@
+{
+  "passed": true,
+  "version": "2.3.1",
+  "fixture": "Isolated Edge extension session with sample contribution data",
+  "worlds": [
+    {
+      "id": "spider-man",
+      "objects": 5,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    },
+    {
+      "id": "the-last-of-us",
+      "objects": 6,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    },
+    {
+      "id": "red-dead",
+      "objects": 5,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    },
+    {
+      "id": "rick-and-morty",
+      "objects": 5,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    },
+    {
+      "id": "iron-man",
+      "objects": 4,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    }
+  ],
+  "resize": true,
+  "mobile": true,
+  "offscreenPause": true,
+  "lateReplacement": true,
+  "componentGates": true,
+  "reducedMotion": true,
+  "cleanup": true,
+  "errors": []
+}

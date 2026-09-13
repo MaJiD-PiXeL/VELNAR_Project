@@ -1,0 +1,10 @@
+{
+  "before": "2.1.1",
+  "after": "2.2.0",
+  "theme": "spider-man",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "fixture": "Same local fixture in separate real extension browser sessions"
+}
