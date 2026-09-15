@@ -32,6 +32,66 @@
       "particleMotion": true,
       "clickThrough": true,
       "navigationRecovery": true
+    },
+    {
+      "id": "batman",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
+    },
+    {
+      "id": "star-wars",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
+    },
+    {
+      "id": "harry-potter",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
+    },
+    {
+      "id": "deadpool",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
+    },
+    {
+      "id": "stranger-things",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
+    },
+    {
+      "id": "wednesday",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
+    },
+    {
+      "id": "squid-game",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
+    },
+    {
+      "id": "god-of-war",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
+    },
+    {
+      "id": "assassins-creed",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
+    },
+    {
+      "id": "minecraft",
+      "particleMotion": true,
+      "clickThrough": true,
+      "navigationRecovery": true
     }
   ],
   "reducedMotion": true,

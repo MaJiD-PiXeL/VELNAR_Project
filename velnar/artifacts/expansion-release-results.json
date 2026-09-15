@@ -1,0 +1,18 @@
+{
+  "version": "2.4.0",
+  "files": 34,
+  "zipBytes": 90032,
+  "sha256": "befd8fdc00ae6cdc0b79f131418597794aa112c3be13308a0aa08b5e6d3830cd",
+  "sourceZipAndUnpackedIdentical": true,
+  "coreTestsPassed": 14,
+  "cinematicWorldsTested": 15,
+  "newThemes": 10,
+  "presets": 45,
+  "nativeCellAnimations": 0,
+  "browserReports": {
+    "browser": true,
+    "cinematic": true,
+    "graph": true,
+    "dashboard": true
+  }
+}

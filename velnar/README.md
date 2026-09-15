@@ -1,6 +1,6 @@
 # VELNAR
 
-Make GitHub yours. A private, local-first Chrome and Edge extension with 35 themes, 30 editable colors, typography controls and optional animations.
+Make GitHub yours. A private, local-first Chrome and Edge extension with 45 themes, 30 editable colors, typography controls and optional animations.
 
 ## Install
 
@@ -13,7 +13,7 @@ For development, load the `extension/` directory directly. Chrome/Edge 111 or ne
 
 ## Features
 
-- Five cinematic themes: Spider-Man, The Last of Us, Red Dead, Rick and Morty, and Iron Man, each with original vector artwork and distinct animated effects.
+- Fifteen cinematic themes with local vector characters and distinct contribution-grid stories. The original five are joined by ten movie, television and game worlds in 2.4.0.
 - 30 additional official, community, vivid and gaming palettes, searchable in the popup and settings.
 - Favorites, random themes, and automatic light/dark selection based on your system.
 - Theme Builder with 30 color controls and a live preview before applying.
@@ -39,8 +39,18 @@ Open **Themes → Cinematic collection** or choose a cinematic card in the popup
 | Red Dead | Sunset silhouettes, frontier dust and ember contributions |
 | Rick and Morty | Rotating portals, floating particles and green energy pulses |
 | Iron Man | Counter-rotating reactor rings, HUD traces and repulsor glows |
+| Batman | Cape glide, spinning batarang and Bat-Signal |
+| Star Wars | Darth Vader, red lightsaber and Force ripples |
+| Harry Potter | Wand spell and golden magical sparks |
+| Deadpool | Backflip and crossed katana slashes |
+| Stranger Things | Eleven, telekinesis and an Upside Down rift |
+| Wednesday | Wednesday's dance and Thing walking across the grid |
+| Squid Game | Masked guard, red/green lights and game symbols |
+| God of War | Kratos, a returning Leviathan Axe and frost impact |
+| Assassin's Creed | Ezio's leap of faith and an eagle flyover |
+| Minecraft | Steve, diamond pickaxe, cracking blocks and pixel chips |
 
-**Preview animations** opens an interactive demo repository inside the extension. Switch between all five worlds, pause motion and apply a theme to GitHub. For a preview without installing, open `extension/preview/preview.html`; applying a theme requires the installed extension.
+**Preview animations** opens an interactive demo repository inside the extension. Switch between all 15 worlds, pause motion and apply a theme to GitHub. For a preview without installing, open `extension/preview/preview.html`; applying a theme requires the installed extension.
 
 Each cinematic theme also has a full-page backdrop, distinct card surfaces, themed borders and a patterned header. A compact illustrated banner appears on the signed-in dashboard, with moving light trails, spores, dust or reactor details. It recovers when GitHub replaces the dashboard content without a full reload.
 
@@ -49,6 +59,8 @@ Version 2.2.1 removes the separate dark layers behind changelog text and profile
 In 2.3.0, each cinematic theme replaces that sweep with a tiny story inside the contribution grid: web shooting and swinging, a survivor with a flashlight and growing fungi, Dead Eye aiming and a gunshot, a portal journey, or Iron Man's flight and repulsor. Targets line up with actual cells. Each graph has only 4–6 animated overlay objects; its cells remain unchanged. Scenes pause offscreen and follow **Animations** and **Contribution Graph** independently of the atmosphere switch.
 
 Version 2.3.1 adds more detailed character drawings shared by the graph, banners and theme cards. Actors scale up to 76px to keep faces and clothing readable inside the grid. Spider-Man, Ellie, Arthur Morgan, Rick and Morty, and Iron Man are drawn locally in `extension/themes/character-art.js`; the extension downloads no character artwork. Run `node scripts/character-review.cjs` to rebuild the character gallery in `artifacts/character-redesign.html`.
+
+Version 2.4.0 adds ten more worlds with illustrated characters in `extension/themes/collection-art.js` and contribution stories in `extension/content/collection-stories.js`. Each new story uses 4–5 animated objects, with zero animations on native contribution cells. The existing pause, reduced-motion, offscreen suspension and component controls apply to all fifteen worlds. The gallery is generated with `node scripts/collection-review.cjs` at `artifacts/expansion-2.4.0.html`.
 
 Motion respects system reduced-motion preferences and stops while the GitHub tab is hidden. Pausing animations keeps the static theme and banner visible. The **Profile & cinematic atmosphere** switch hides the dashboard banner, backdrop and decorative margin layer; navbar, sidebar, card, button and contribution styles follow their respective component switches. Decorations never capture clicks or keyboard focus and shrink on small screens. All artwork is bundled locally, without network requests.
 
