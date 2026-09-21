@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "version": "2.3.1",
+  "version": "2.4.0",
   "fixture": "Isolated Edge extension session with sample contribution data",
   "worlds": [
     {
@@ -50,6 +50,116 @@
     {
       "id": "iron-man",
       "objects": 4,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    },
+    {
+      "id": "batman",
+      "objects": 4,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    },
+    {
+      "id": "star-wars",
+      "objects": 4,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    },
+    {
+      "id": "harry-potter",
+      "objects": 4,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    },
+    {
+      "id": "deadpool",
+      "objects": 4,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    },
+    {
+      "id": "stranger-things",
+      "objects": 4,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    },
+    {
+      "id": "wednesday",
+      "objects": 4,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    },
+    {
+      "id": "squid-game",
+      "objects": 4,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    },
+    {
+      "id": "god-of-war",
+      "objects": 5,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    },
+    {
+      "id": "assassins-creed",
+      "objects": 4,
+      "properties": [
+        "opacity",
+        "transform"
+      ],
+      "cells": 0,
+      "aligned": true,
+      "clickThrough": true
+    },
+    {
+      "id": "minecraft",
+      "objects": 5,
       "properties": [
         "opacity",
         "transform"
