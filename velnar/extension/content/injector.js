@@ -51,7 +51,8 @@ VELNAR.Injector = {
   _primerCss() {
     const tokens = {};
     const map = (names, value) => names.split(" ").forEach(name => { tokens[name] = value; });
-    map("bgColor-default bgColor-inset color-canvas-default color-canvas-inset", "var(--gs-bg)");
+    map("bgColor-default color-canvas-default", "var(--gs-repo-bg)");
+    map("bgColor-inset color-canvas-inset", "var(--gs-bg)");
     map("bgColor-muted color-canvas-subtle", "var(--gs-bg-secondary)");
     map("bgColor-neutral-muted bgColor-disabled color-neutral-muted", "var(--gs-bg-tertiary)");
     map("fgColor-default color-fg-default", "var(--gs-text-primary)");
@@ -61,7 +62,7 @@ VELNAR.Injector = {
     map("borderColor-default color-border-default", "var(--gs-border)");
     map("borderColor-muted borderColor-neutral-muted color-border-muted color-border-subtle", "var(--gs-border-muted)");
     map("borderColor-emphasis borderColor-neutral-emphasis color-neutral-emphasis", "var(--gs-scrollbar-thumb)");
-    map("borderColor-accent-emphasis focus-outlineColor color-accent-emphasis", "var(--gs-accent)");
+    map("borderColor-accent-emphasis focus-outlineColor", "var(--gs-accent)");
     map("bgColor-accent-muted color-accent-subtle", "color-mix(in srgb, var(--gs-accent) 14%, var(--gs-bg))");
     // Preserve semantic status/diff colors, transparent surfaces and scrim tokens.
     return this._primerDeclarations(tokens);
@@ -71,11 +72,18 @@ VELNAR.Injector = {
   _baseCss() {
     return `
 html, body { background-color: var(--gs-bg) !important; color: var(--gs-text-primary) !important; }
-.color-bg-default, .color-bg-inset, .bgColor-default, .bgColor-inset {
+main, [role="main"], .application-main, .Layout-main {
+  background-color: var(--gs-bg) !important;
+  color: var(--gs-text-primary) !important;
+}
+.color-bg-inset, .bgColor-inset {
   background-color: var(--gs-bg) !important;
 }
+.color-bg-default, .bgColor-default { background-color: var(--gs-repo-bg) !important; }
 .color-bg-subtle, .bgColor-muted { background-color: var(--gs-bg-secondary) !important; }
 .color-bg-emphasis, .bgColor-emphasis { background-color: var(--gs-text-primary) !important; color: var(--gs-bg) !important; }
+/* Timeline rows and their text share the enclosing card's surface. */
+.TimelineItem, .TimelineItem-body:not(.Box), [data-testid="issue-pr-title"] { background-color: transparent !important; }
 a { color: var(--gs-link); }
 a:hover { color: var(--gs-link-hover); }
 ::selection { background: var(--gs-accent); color: var(--gs-button-text); }
@@ -111,7 +119,7 @@ dialog::backdrop,
   _componentBlocks() {
     return {
       navbar: `
-.AppHeader, div[data-testid="global-navigation"], .Header, .AppHeader-globalBar, .AppHeader-context {
+.AppHeader, div[data-testid="global-navigation"], .Header, .AppHeader-globalBar, .AppHeader-context, body > header {
   background-color: var(--gs-navbar-bg) !important;
   color: var(--gs-navbar-text) !important;
   border-color: var(--gs-border) !important;
@@ -148,12 +156,14 @@ header.AppHeader summary, .AppHeader-actions summary {
 }`,
 
       repoCards: `
-.Box, .Box-row, [data-testid="results-list"] > div, .col-12.d-flex.flex-justify-between, .source-list {
+.Box, .Box-row, [data-testid="results-list"] > div, .col-12.d-flex.flex-justify-between, .source-list,
+[data-testid="feed-item"], [data-testid="feed-card"] {
   background-color: var(--gs-repo-bg) !important;
   border-color: var(--gs-border) !important;
   border-radius: var(--gs-radius) !important;
 }
-.Box:hover, .Box-row:hover { background-color: var(--gs-hover-bg) !important; }`,
+.Box:hover { border-color: var(--gs-accent) !important; }
+.Box-row:hover { background-color: var(--gs-hover-bg) !important; }`,
 
       buttons: `
 /* halate defaulte dokme ha: sobresh be surface theme, na ye block tokh rangi.
@@ -211,7 +221,7 @@ pre, code, .highlight, .blob-code, .blob-code-inner, .react-code-text, .CodeMirr
 
       markdown: `
 .markdown-body, .comment-body, article.markdown-body {
-  background-color: var(--gs-bg) !important;
+  background-color: transparent !important;
   color: var(--gs-text-primary) !important;
 }
 .markdown-body pre, .markdown-body code { background-color: var(--gs-code-bg) !important; }
@@ -220,7 +230,7 @@ pre, code, .highlight, .blob-code, .blob-code-inner, .react-code-text, .CodeMirr
 .markdown-body table tr:nth-child(2n) { background-color: var(--gs-bg-secondary) !important; }`,
 
       issues: `
-.js-issue-row, .Box-row.js-navigation-item, [data-testid="issue-pr-title"], .TimelineItem {
+.js-issue-row, .Box-row.js-navigation-item {
   background-color: var(--gs-bg) !important;
   border-color: var(--gs-border) !important;
 }
@@ -235,10 +245,11 @@ pre, code, .highlight, .blob-code, .blob-code-inner, .react-code-text, .CodeMirr
 .merge-status-icon .octicon-check { color: var(--gs-success) !important; }`,
 
       profile: `
-.vcard-names, .h-card, .user-profile-nav, .UnderlineNav {
-  background-color: var(--gs-bg) !important;
+.vcard-names, .h-card, .user-profile-bio, .UnderlineNav {
+  background-color: transparent !important;
   border-color: var(--gs-border) !important;
 }
+.user-profile-nav { background-color: var(--gs-bg) !important; border-color: var(--gs-border) !important; }
 .avatar, img.avatar { border-color: var(--gs-border) !important; border-radius: var(--gs-radius) !important; }`,
 
       followers: `
@@ -256,7 +267,7 @@ pre, code, .highlight, .blob-code, .blob-code-inner, .react-code-text, .CodeMirr
 .notification-list-item:hover { background-color: var(--gs-hover-bg) !important; }`,
 
       commitList: `
-.commit, .Box-row[id^="commit"], .TimelineItem-body {
+.commit, .Box-row[id^="commit"] {
   background-color: var(--gs-repo-bg) !important;
   border-color: var(--gs-border) !important;
 }
@@ -300,41 +311,32 @@ pre, code, .highlight, .blob-code, .blob-code-inner, .react-code-text, .CodeMirr
       contributionGraph: `
 /* nemudare contribution ro az sabze sabete GitHub be rang e accent e theme tabdil mikonim
    ta vaghean ba baghiye safhe hamrang bashe, na ye jazire sabz vasate ye theme mokhtalef */
-.js-calendar-graph-table [data-level="0"], rect.ContributionCalendar-day[data-level="0"] {
+.js-calendar-graph-table [data-level="0"], .ContributionCalendar-day[data-level="0"] {
   fill: var(--gs-bg-secondary) !important;
   background-color: var(--gs-bg-secondary) !important;
   stroke: var(--gs-border) !important;
 }
-.js-calendar-graph-table [data-level="1"], rect.ContributionCalendar-day[data-level="1"] {
+.js-calendar-graph-table [data-level="1"], .ContributionCalendar-day[data-level="1"] {
   fill: rgba(var(--gs-accent-rgb), 0.28) !important;
   background-color: rgba(var(--gs-accent-rgb), 0.28) !important;
 }
-.js-calendar-graph-table [data-level="2"], rect.ContributionCalendar-day[data-level="2"] {
+.js-calendar-graph-table [data-level="2"], .ContributionCalendar-day[data-level="2"] {
   fill: rgba(var(--gs-accent-rgb), 0.5) !important;
   background-color: rgba(var(--gs-accent-rgb), 0.5) !important;
 }
-.js-calendar-graph-table [data-level="3"], rect.ContributionCalendar-day[data-level="3"] {
+.js-calendar-graph-table [data-level="3"], .ContributionCalendar-day[data-level="3"] {
   fill: rgba(var(--gs-accent-rgb), 0.75) !important;
   background-color: rgba(var(--gs-accent-rgb), 0.75) !important;
 }
-.js-calendar-graph-table [data-level="4"], rect.ContributionCalendar-day[data-level="4"] {
+.js-calendar-graph-table [data-level="4"], .ContributionCalendar-day[data-level="4"] {
   fill: var(--gs-accent) !important;
   background-color: var(--gs-accent) !important;
 }
-.js-calendar-graph, .js-calendar-graph-table { background-color: var(--gs-bg) !important; }
+.js-calendar-graph, .js-calendar-graph-table { background-color: transparent !important; }
+.js-yearly-contributions .filter-item.selected, .js-yearly-contributions .filter-item[aria-current="true"],
+.js-yearly-contributions .filter-item[aria-current="page"] { background-color: var(--gs-button) !important; color: var(--gs-button-text) !important; }
 .js-calendar-graph-table th, .js-calendar-graph text { fill: var(--gs-text-secondary) !important; color: var(--gs-text-secondary) !important; }`
     };
-  },
-
-  // har haftaye graph ye sotoone jodast (td dar hamun position tuye har ye row).
-  // pas nth-child e td dar tr, dorost mostaghim ru "haftaye chandom" map mishe -
-  // hamin ro baraye stagger delay (mouje az chap be rast) estefade mikonim
-  _contributionStaggerCss() {
-    let css = "";
-    for (let week = 1; week <= 58; week++) {
-      css += `.js-calendar-graph-table tr td:nth-child(${week}) { --velnar-stagger: ${week * 14}ms; }\n`;
-    }
-    return css;
   },
 
   _componentTokens() {
@@ -384,116 +386,35 @@ pre, code, .highlight, .blob-code, .blob-code-inner, .react-code-text, .CodeMirr
     if (tag.textContent !== css) tag.textContent = css;
   },
 
-  // "tem motaharek" - vaghti roshan bashe, gradient e navbar mikeshe, dokme haye primary
-  // pulse mikonan va hover ha smooth transition migiran. hameye in ha ba rgba mostaghim
-  // az --gs-accent-rgb sakhte mishan, pas be color-mix() niazi nist (sazgari bishtar)
-  // rgbCycle: faghat theme haye "Gaming" in ro true midan - dokme haye primary va
-  // glow e contribution graph ye hue-rotate e dayemi migiran (jelveye RGB gaming vaghei)
+  // One composited sweep per graph replaces hundreds of cell paint animations.
   applyAnimations(enabled, overrides, rgbCycle) {
     const tag = this._getOrCreateTag(VELNAR.ANIMATIONS_TAG_ID);
-    if (!enabled) {
-      tag.textContent = "";
-      return;
-    }
+    if (!enabled) { if (tag.textContent) tag.textContent = ""; return; }
     const on = id => !overrides || overrides[id] !== false;
-    let css = `@keyframes velnar-pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--gs-accent-rgb), 0.35); }
-  50% { box-shadow: 0 0 16px 3px rgba(var(--gs-accent2-rgb), 0.45); }
-}
-@keyframes velnar-gradient-shift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-@keyframes velnar-rgb-hue { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
-@media (prefers-reduced-motion: no-preference) {
-`;
-    if (on("navbar")) css += `
-header.AppHeader, .AppHeader-globalBar {
-  background-image: linear-gradient(120deg, var(--gs-navbar-bg), rgba(var(--gs-accent-rgb), .12), rgba(var(--gs-accent2-rgb), .12), var(--gs-navbar-bg)) !important;
-  background-size: 280% 280% !important;
-  animation: velnar-gradient-shift 16s ease-in-out infinite !important;
-}`;
-    if (on("buttons")) css += `
-.btn, .Button { transition: background-color .18s ease, box-shadow .2s ease; }
-.btn-primary, .Button--primary, [data-variant="primary"] { animation: velnar-pulse-glow 2.6s ease-in-out infinite; }
-`;
-    if (on("repoCards")) css += `.Box, .Box-row { transition: background-color .18s ease; }`;
-    // RGB cycling belongs to the graph. Keeping buttons stable preserves text contrast.
-    css += "}\n";
-
-    if (!overrides || overrides.contributionGraph !== false) {
-      css += this._contributionStaggerCss();
-      css += `
-@keyframes velnar-cell-in {
-  from { opacity: 0; transform: scale(0.3); }
-  to { opacity: 1; transform: scale(1); }
-}
-@keyframes velnar-cell-breathe {
-  0%, 82%, 100% { filter: brightness(1) saturate(1); }
-  91% { filter: brightness(1.45) saturate(1.3); }
-}
-@keyframes velnar-cell-glow {
-  0%, 100% { box-shadow: 0 0 0 rgba(var(--gs-accent-rgb), 0); }
-  50% { box-shadow: 0 0 8px 2px rgba(var(--gs-accent2-rgb), 0.7); }
-}
-@keyframes velnar-shimmer-sweep {
-  0% { transform: translateX(-140%) skewX(-12deg); }
-  100% { transform: translateX(240%) skewX(-12deg); }
-}
-
-/* prefers-reduced-motion: no-preference yani "user explicitly motion ro khamush nakarde" -
-   in ye estandarde accessibility hast, ye extension e vaghean herfei bayad rعایesh kone */
-@media (prefers-reduced-motion: no-preference) {
-  .js-calendar-graph-table td.ContributionCalendar-day,
-  rect.ContributionCalendar-day {
-    animation:
-      velnar-cell-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both,
-      velnar-cell-breathe 6s ease-in-out infinite;
-    animation-delay: var(--velnar-stagger, 0ms), var(--velnar-stagger, 0ms);
-    transition: transform 0.15s ease, box-shadow 0.2s ease;
-    transform-origin: center;
-  }
-  .js-calendar-graph-table td.ContributionCalendar-day[data-level="3"],
-  .js-calendar-graph-table td.ContributionCalendar-day[data-level="4"],
-  rect.ContributionCalendar-day[data-level="3"],
-  rect.ContributionCalendar-day[data-level="4"] {
-    animation: ${rgbCycle
-      ? "velnar-cell-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both, velnar-cell-breathe 6s ease-in-out infinite, velnar-cell-glow 3.2s ease-in-out infinite, velnar-rgb-hue 4s linear infinite"
-      : "velnar-cell-in 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both, velnar-cell-breathe 6s ease-in-out infinite, velnar-cell-glow 3.2s ease-in-out infinite"};
-    animation-delay: ${rgbCycle
-      ? "var(--velnar-stagger, 0ms), var(--velnar-stagger, 0ms), calc(var(--velnar-stagger, 0ms) + 500ms), 0ms"
-      : "var(--velnar-stagger, 0ms), var(--velnar-stagger, 0ms), calc(var(--velnar-stagger, 0ms) + 500ms)"};
-  }
-  .js-calendar-graph-table td.ContributionCalendar-day:hover,
-  rect.ContributionCalendar-day:hover {
-    transform: scale(1.5) !important;
-    box-shadow: 0 0 10px 2px rgba(var(--gs-accent2-rgb), 0.7) !important;
-    position: relative;
-    z-index: 5;
-  }
-  .js-calendar-graph {
-    position: relative;
-    overflow: hidden;
-  }
-  .js-calendar-graph::after {
-    content: "";
-    position: absolute;
-    top: -60%;
-    left: -30%;
-    width: 30%;
-    height: 220%;
-    background: linear-gradient(100deg,
-      transparent,
-      rgba(var(--gs-accent-rgb), 0.16),
-      rgba(var(--gs-accent2-rgb), 0.16),
-      transparent);
-    animation: velnar-shimmer-sweep 8s ease-in-out infinite;
-    animation-delay: 1.2s;
-    pointer-events: none;
-  }
-}`;
+    let css = `@keyframes velnar-shimmer-sweep {
+      0%,15% { transform:translateX(-150%) skewX(-12deg);opacity:0; }
+      25%,65% { opacity:1; }
+      85%,100% { transform:translateX(450%) skewX(-12deg);opacity:0; }
     }
-
+    @keyframes velnar-rgb-hue { to { filter:hue-rotate(360deg); } }
+    @media (prefers-reduced-motion:no-preference) {`;
+    if (on("navbar")) css += `
+      header.AppHeader,.AppHeader-globalBar { background-image:linear-gradient(120deg,var(--gs-navbar-bg),rgba(var(--gs-accent-rgb),.12),var(--gs-navbar-bg)) !important; }`;
+    if (on("buttons")) css += `
+      .btn,.Button { transition:background-color .15s ease,box-shadow .15s ease; }
+      .btn-primary:hover,.Button--primary:hover,[data-variant="primary"]:hover { box-shadow:0 0 14px rgba(var(--gs-accent2-rgb),.4); }`;
+    if (on("contributionGraph")) css += `
+      .ContributionCalendar-day { transition:transform .15s ease;transform-origin:center; }
+      .ContributionCalendar-day:hover { transform:scale(1.3);position:relative;z-index:1; }
+      .js-calendar-graph { position:relative;overflow:hidden; }
+      .js-calendar-graph::after {
+        content:"";position:absolute;inset-block:0;left:0;width:30%;pointer-events:none;
+        background:linear-gradient(100deg,transparent,rgba(var(--gs-accent-rgb),.12),rgba(var(--gs-accent2-rgb),.12),transparent);
+        animation:velnar-shimmer-sweep 10s ease-in-out infinite${rgbCycle ? ",velnar-rgb-hue 6s linear infinite" : ""};
+      }`;
+    css += "}";
     if (tag.textContent !== css) tag.textContent = css;
   },
-
 
   applyTypography(typography) {
     const tag = this._getOrCreateTag(VELNAR.TYPOGRAPHY_TAG_ID);
@@ -540,11 +461,13 @@ header.AppHeader, .AppHeader-globalBar {
     const styleTag = this._getOrCreateTag(VELNAR.WEB_SWINGER_STYLE_ID);
     let el = document.getElementById(VELNAR.WEB_SWINGER_ELEMENT_ID);
 
-    if (!enabled || !isProfilePage) {
+    if (!enabled || !isProfilePage || !document.body || document.hidden) {
       styleTag.textContent = "";
       if (el) el.remove();
       return;
     }
+    const signature = JSON.stringify([colors.accent, colors.accentSecondary]);
+    if (el?.dataset.signature === signature && styleTag.textContent) return;
 
     const accent = (colors && colors.accent) || "#00c2d7";
     const accent2 = (colors && colors.accentSecondary) || accent;
@@ -569,13 +492,14 @@ header.AppHeader, .AppHeader-globalBar {
       el.id = VELNAR.WEB_SWINGER_ELEMENT_ID;
       document.body.appendChild(el);
     }
+    el.dataset.signature = signature;
     el.style.backgroundImage = `url("${dataUri}")`;
 
     styleTag.textContent = `
 #${VELNAR.WEB_SWINGER_ELEMENT_ID} {
   position: fixed;
   top: 0;
-  left: -90px;
+  left: 0;
   width: 56px;
   height: 84px;
   background-size: contain;
@@ -590,14 +514,14 @@ header.AppHeader, .AppHeader-globalBar {
   }
 }
 @keyframes velnar-web-swing {
-  0%   { left: -90px;  top: 20vh; opacity: 0;   transform: rotate(-20deg); }
+  0%   { opacity: 0; transform: translate(-90px,20vh) rotate(-20deg); }
   2%   { opacity: 1; }
-  10%  { left: 25vw;   top: 34vh; transform: rotate(20deg); }
-  18%  { left: 50vw;   top: 12vh; transform: rotate(-24deg); }
-  26%  { left: 75vw;   top: 32vh; transform: rotate(18deg); }
-  33%  { left: 106vw;  top: 20vh; opacity: 1;   transform: rotate(-8deg); }
+  10%  { transform: translate(25vw,34vh) rotate(20deg); }
+  18%  { transform: translate(50vw,12vh) rotate(-24deg); }
+  26%  { transform: translate(75vw,32vh) rotate(18deg); }
+  33%  { opacity: 1; transform: translate(106vw,20vh) rotate(-8deg); }
   35%  { opacity: 0; }
-  100% { left: 106vw;  top: 20vh; opacity: 0; }
+  100% { opacity: 0; transform: translate(106vw,20vh) rotate(-8deg); }
 }`;
   },
 

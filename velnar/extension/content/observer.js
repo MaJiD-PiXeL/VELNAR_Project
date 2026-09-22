@@ -7,6 +7,7 @@ globalThis.VELNAR = globalThis.VELNAR || {};
 VELNAR.Observer = {
   _lastUrl: location.href,
   _callback: null,
+  _scheduled: false,
 
   start(callback) {
     this._callback = callback;
@@ -14,11 +15,12 @@ VELNAR.Observer = {
     document.addEventListener("turbo:render", () => this._trigger());
     document.addEventListener("turbo:load", () => this._trigger());
     document.addEventListener("pjax:end", () => this._trigger());
+    window.addEventListener("popstate", () => this._trigger());
 
     // fallback baraye vaghti event haye bala mojud nabashan: check kardane url dar interval kootah
-    // in interval sabok hast (faghat compare string) pas bar performance tasiri nadare
+    // The fallback only checks visible tabs; Turbo/PJAX events are the primary path.
     setInterval(() => {
-      if (location.href !== this._lastUrl) {
+      if (!document.hidden && location.href !== this._lastUrl) {
         this._lastUrl = location.href;
         this._trigger();
       }
@@ -37,6 +39,13 @@ VELNAR.Observer = {
   },
 
   _trigger() {
-    if (this._callback) this._callback();
+    if (this._scheduled) return;
+    this._scheduled = true;
+    // Turbo can emit render/load/pjax:end in the same frame.
+    requestAnimationFrame(() => {
+      this._scheduled = false;
+      this._lastUrl = location.href;
+      if (this._callback) this._callback();
+    });
   }
 };

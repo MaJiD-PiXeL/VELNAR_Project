@@ -23,6 +23,8 @@ VELNAR.Cinema = {
   _render() {
     if (!this._state) return;
     const { theme, settings } = this._state;
+    VELNAR.World.apply(theme, settings);
+    VELNAR.GraphScenes.apply(theme, settings);
     const overrides = settings.componentOverrides || {};
     if (!theme?.scene || !settings.enabled || !settings.animationsEnabled || document.hidden || matchMedia("(prefers-reduced-motion: reduce)").matches) {
       this.remove(); return;
@@ -68,18 +70,18 @@ VELNAR.Cinema = {
     return `
       :host,* { pointer-events:none!important; box-sizing:border-box; }
       .world { position:absolute; inset:0; overflow:hidden; color:${theme.colors.accentSecondary}; }
-      .motif { position:absolute; width:220px; height:220px; opacity:.34; }
+      .motif { position:absolute; width:220px; height:220px; opacity:.14; }
       .motif svg { width:100%; height:100%; }
-      .motif-left { left:-82px; top:110px; }
+      .motif-left { left:-82px; bottom:20px; }
       .motif-right { right:-70px; bottom:24px; }
-      .world--spider-man .motif-left { left:0; top:68px; width:170px; opacity:.26; }
-      .world--spider-man .motif-right { transform:rotate(180deg); right:0; bottom:0; width:175px; opacity:.24; }
+      .world--spider-man .motif-left { left:0; bottom:0; width:170px; opacity:.14; }
+      .world--spider-man .motif-right { transform:rotate(180deg); right:0; bottom:0; width:175px; opacity:.14; }
       .world--the-last-of-us .motif-left { top:auto; bottom:0; transform:rotate(14deg); }
       .world--the-last-of-us .motif-right { transform:rotate(-12deg); }
-      .world--red-dead .motif-left { top:auto; bottom:-36px; opacity:.38; }
-      .world--red-dead .motif-right { opacity:.2; }
+      .world--red-dead .motif-left { top:auto; bottom:-36px; opacity:.16; }
+      .world--red-dead .motif-right { opacity:.14; }
       .world--rick-and-morty .motif-left { transform:rotate(-24deg); }
-      .world--iron-man .motif-right { width:210px; height:210px; opacity:.4; }
+      .world--iron-man .motif-right { width:210px; height:210px; opacity:.16; }
       .rail { position:absolute; top:82px; bottom:0; width:70px; overflow:hidden; }
       .rail-left { left:0; } .rail-right { right:0; }
       .rail i { position:absolute; left:var(--x); bottom:-12px; width:var(--size); height:var(--size); border-radius:50%; background:${theme.colors.accentSecondary}; box-shadow:0 0 8px ${theme.colors.accentSecondary}; opacity:0; animation:vn-atmosphere var(--duration) linear var(--delay) infinite; }
@@ -91,59 +93,18 @@ VELNAR.Cinema = {
       @keyframes vn-atmosphere { 0% { transform:translate(0,0);opacity:0; } 15%,75% { opacity:.5; } 100% { transform:translate(18px,-85vh);opacity:0; } }
       @keyframes vn-web-tracer { 0% { transform:translateY(-85vh);opacity:0; } 15%,65% { opacity:.5; } 100% { transform:translateY(0);opacity:0; } }
       @keyframes vn-dust { 0% { transform:translate(-25px,-20vh);opacity:0; } 20%,70% { opacity:.35; } 100% { transform:translate(40px,-60vh);opacity:0; } }
-      @media(max-width:1100px) { .motif { width:150px;height:150px;opacity:.18!important; } .motif-left { left:-95px!important; } .motif-right { right:-100px!important; } .rail { width:24px;opacity:.5; } }
+      @media(max-width:1100px) { .motif { width:150px;height:150px;opacity:.1!important; } .motif-left { left:-95px!important; } .motif-right { right:-100px!important; } .rail { width:24px;opacity:.5; } }
       @media(max-width:600px) { .motif { display:none; } .rail { width:12px;opacity:.3; } }
       @media(prefers-reduced-motion:reduce) { .world { display:none; } }
     `;
   },
   componentCss(scene, overrides = {}) {
-    const on = id => overrides[id] !== false;
-    const themes = {
-      "spider-man": {
-        header: "repeating-linear-gradient(32deg,transparent 0 44px,#91c8ff12 45px 46px,transparent 47px 90px),repeating-linear-gradient(-32deg,transparent 0 44px,#ff456217 45px 46px,transparent 47px 90px)",
-        motion: "vn-web-scan", button: "vn-spider-charge", graph: "vn-city-signal"
-      },
-      "the-last-of-us": {
-        header: "radial-gradient(ellipse at 25% 100%,#bcd59026,transparent 50%),radial-gradient(ellipse at 80% 0%,#d8b67918,transparent 55%)",
-        motion: "vn-forest-mist", button: "vn-firefly", graph: "vn-spore-breathe"
-      },
-      "red-dead": {
-        header: "linear-gradient(105deg,#7e211033,transparent 40%,#f1b45d26 68%,transparent)",
-        motion: "vn-sunset", button: "vn-deadeye", graph: "vn-ember"
-      },
-      "rick-and-morty": {
-        header: "repeating-radial-gradient(ellipse at 85% 50%,transparent 0 18px,#b2f45d1f 20px 22px,transparent 24px 40px)",
-        motion: "vn-portal-field", button: "vn-portal-charge", graph: "vn-portal-cell"
-      },
-      "iron-man": {
-        header: "repeating-linear-gradient(90deg,transparent 0 55px,#6de5ff15 56px 57px),linear-gradient(110deg,transparent 15%,#6de5ff18 50%,transparent 75%)",
-        motion: "vn-hud-scan", button: "vn-reactor-charge", graph: "vn-reactor-cell"
-      }
-    };
-    if (!Object.hasOwn(themes, scene)) return "";
-    const t = themes[scene];
-    let rules = "";
-    if (on("navbar")) rules += `header.AppHeader,.AppHeader-globalBar,.Header { background-image:${t.header}!important;background-size:220% 180%!important;animation:${t.motion} 18s ease-in-out infinite!important; }`;
-    if (on("buttons")) rules += `.btn-primary,.Button--primary,[data-variant="primary"] { animation:${t.button} 4.8s ease-in-out infinite!important; }`;
-    if (on("contributionGraph")) rules += `.js-calendar-graph-table [data-level="3"],.js-calendar-graph-table [data-level="4"],rect.ContributionCalendar-day[data-level="4"] { animation:${t.graph} 6s ease-in-out infinite!important;animation-delay:var(--velnar-stagger,0ms)!important; }`;
-    if (!rules) return "";
-    return `
-      @keyframes vn-web-scan { 50% { background-position:70% 40%; } }
-      @keyframes vn-forest-mist { 50% { background-position:100% 80%; } }
-      @keyframes vn-sunset { 50% { background-position:100% 50%; } }
-      @keyframes vn-portal-field { 50% { background-position:100% 100%; } }
-      @keyframes vn-hud-scan { 50% { background-position:100% 0%; } }
-      @keyframes vn-spider-charge { 0%,100% { box-shadow:0 0 0 1px #ff456244,0 0 8px #ff45621a; } 50% { box-shadow:0 0 0 1px #38a9ff88,0 0 22px #38a9ff44; } }
-      @keyframes vn-firefly { 0%,100% { box-shadow:0 0 5px #bbd78a18; } 50% { box-shadow:0 0 22px #dfa56755; } }
-      @keyframes vn-deadeye { 0%,100% { box-shadow:0 0 0 1px #e94b3955; } 50% { box-shadow:0 0 0 3px #e94b3922,0 0 23px #e94b3944; } }
-      @keyframes vn-portal-charge { 0%,100% { box-shadow:0 0 0 2px #b2f45d22,0 0 9px #b2f45d22; } 50% { box-shadow:0 0 0 4px #58dfe815,0 0 25px #b2f45d66; } }
-      @keyframes vn-reactor-charge { 0%,100% { box-shadow:0 0 0 1px #6de5ff44,0 0 7px #6de5ff33; } 50% { box-shadow:0 0 0 2px #6de5ff99,0 0 26px #6de5ff55; } }
-      @keyframes vn-city-signal { 50% { box-shadow:0 0 8px #38a9ff99; } }
-      @keyframes vn-spore-breathe { 50% { box-shadow:0 0 7px #dfa56788; } }
-      @keyframes vn-ember { 50% { box-shadow:0 0 8px #e94b39aa; } }
-      @keyframes vn-portal-cell { 50% { box-shadow:0 0 10px #b2f45daa; } }
-      @keyframes vn-reactor-cell { 50% { box-shadow:0 0 10px #6de5ffbb; } }
-      @media(prefers-reduced-motion:no-preference) { ${rules} }
-    `;
+    if (overrides.buttons === false) return "";
+    const glows = {"spider-man":"#38a9ff66","the-last-of-us":"#dfa56755","red-dead":"#e94b3966","rick-and-morty":"#b2f45d66","iron-man":"#6de5ff66"};
+    const glow=glows[scene] || (VELNAR.getThemeById(scene)?.colors.accentSecondary + '66');
+    if (!VELNAR.getThemeById(scene)?.scene) return "";
+    return `@media(prefers-reduced-motion:no-preference) {
+      .btn-primary:is(:hover,:focus-visible),.Button--primary:is(:hover,:focus-visible),[data-variant="primary"]:is(:hover,:focus-visible) { box-shadow:0 0 18px ${glow}!important; }
+    }`;
   }
 };

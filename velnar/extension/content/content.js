@@ -30,39 +30,56 @@
     return !!(theme && theme.rgbCycle);
   }
 
+  const applied = new Map();
+  function applyStyle(id, values, render) {
+    const key = JSON.stringify(values);
+    const previous = applied.get(id), tag = document.getElementById(id);
+    if (previous?.key === key && tag === previous.tag && tag?.textContent === previous.css) return;
+    render();
+    const next = document.getElementById(id);
+    applied.set(id, { key, tag: next, css: next?.textContent });
+  }
+
   function applyAll(settings) {
     const activePreset = settings.customThemeApplied && !settings.autoDarkMode ? null : VELNAR.getThemeById(resolveActiveThemeId(settings));
     if (!settings.enabled) {
       VELNAR.Cinema.apply(null, settings);
       VELNAR.Injector.removeAll();
+      applied.clear();
       return;
     }
     const colors = resolveActiveColors(settings);
-    VELNAR.Injector.applyThemeVars(colors, settings.layout);
-    VELNAR.Injector.applyComponents(settings.componentOverrides);
-    VELNAR.Injector.applyTypography(settings.typography);
-    VELNAR.Injector.applyAnimations(settings.animationsEnabled, settings.componentOverrides, resolveRgbCycle(settings));
+    applyStyle(VELNAR.STYLE_TAG_ID, [colors, settings.layout], () => VELNAR.Injector.applyThemeVars(colors, settings.layout));
+    applyStyle(VELNAR.COMPONENTS_TAG_ID, settings.componentOverrides, () => VELNAR.Injector.applyComponents(settings.componentOverrides));
+    applyStyle(VELNAR.TYPOGRAPHY_TAG_ID, settings.typography, () => VELNAR.Injector.applyTypography(settings.typography));
+    const motion = settings.animationsEnabled && !document.hidden;
+    applyStyle(VELNAR.ANIMATIONS_TAG_ID, [motion, settings.componentOverrides, resolveRgbCycle(settings)], () => VELNAR.Injector.applyAnimations(motion, settings.componentOverrides, resolveRgbCycle(settings)));
     VELNAR.Cinema.apply(activePreset, settings);
     VELNAR.Injector.applyWebSwinger(settings.webSwingerEnabled, colors);
-    VELNAR.Injector.applyCustomCss(settings.customCss, settings.customCssEnabled);
+    applyStyle(VELNAR.CUSTOM_CSS_TAG_ID, [settings.customCss, settings.customCssEnabled], () => VELNAR.Injector.applyCustomCss(settings.customCss, settings.customCssEnabled));
   }
 
   let currentSettings = null;
 
   async function init() {
-    currentSettings = await VELNAR.Storage.get();
-    applyAll(currentSettings);
-
     // vaghti user az popup ya options chizi avaz kard, bedune reload update besh
     VELNAR.Storage.onChange((newSettings) => {
       currentSettings = newSettings;
       applyAll(currentSettings);
     });
 
+    const saved = await VELNAR.Storage.get();
+    currentSettings ||= saved;
+    applyAll(currentSettings);
+
     // vaghti safhe avaz shod (SPA navigation) dobare bezan ru safhe jadid
     VELNAR.Observer.start(() => {
       if (currentSettings) applyAll(currentSettings);
     });
+
+    // Color the first render; attach body-dependent decorations once parsing ends.
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => applyAll(currentSettings), { once: true });
+    document.addEventListener("visibilitychange", () => applyAll(currentSettings));
 
     // vaghti Auto Dark Mode roshane, taghire system theme (OS) ham bayad live apply beshe
     if (window.matchMedia) {
@@ -72,9 +89,5 @@
     }
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  init();
 })();
