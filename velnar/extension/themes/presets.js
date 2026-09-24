@@ -62,6 +62,17 @@ function gsBestTextColor(bgHex) {
   return best;
 }
 
+function gsReadableColor(color, backgrounds, minimum = 4.5) {
+  const original = gsHexToRgb(color);
+  const target = gsHexToRgb(gsBestTextColor(backgrounds[0]));
+  for (let step = 0; step <= 100; step++) {
+    const amount = step / 100;
+    const candidate = gsRgbToHex(original.r + (target.r - original.r) * amount, original.g + (target.g - original.g) * amount, original.b + (target.b - original.b) * amount);
+    if (backgrounds.every(background => gsContrastRatio(candidate, background) >= minimum)) return candidate;
+  }
+  return gsBestTextColor(backgrounds[0]);
+}
+
 // base -> { bg, bgAlt, text, textMuted, accent, accent2?, success, warning, error, navbar? }
 // accent2 ekhtiari hast: age tarif beshe, animation ha (gradient/glow) beyne accent va
 // accent2 harekat mikonan va ye jelveye "do-rangi" ijad mishe. age tarif nashe, khodesh accent hast
@@ -75,18 +86,18 @@ function buildTheme(id, name, category, base) {
     hoverBackground: gsShade(base.bgAlt, dir * 9),
     activeBackground: gsShade(base.bgAlt, dir * 14),
     textPrimary: base.text,
-    textSecondary: base.textMuted,
+    textSecondary: gsReadableColor(base.textMuted, [base.bg, base.bgAlt]),
     textTertiary: gsShade(base.textMuted, -dir * 12),
-    link: base.accent,
-    linkHover: gsShade(base.accent, 12),
+    link: gsReadableColor(base.accent, [base.bg, base.bgAlt]),
+    linkHover: gsReadableColor(gsShade(base.accent, 12), [base.bg, base.bgAlt]),
     button: base.accent,
     buttonText: base.buttonText || gsBestTextColor(base.accent),
-    buttonHover: gsShade(base.accent, -10),
+    buttonHover: gsReadableColor(gsShade(base.accent, -10), [base.buttonText || gsBestTextColor(base.accent)]),
     border: gsShade(base.bgAlt, dir * 12),
     borderMuted: gsShade(base.bgAlt, dir * 5),
     codeBackground: base.bgAlt,
     codeText: base.text,
-    repoBackground: base.bg,
+    repoBackground: base.scene ? base.bgAlt : base.bg,
     sidebarBackground: base.bg,
     navbarBackground: base.navbar || base.bgAlt,
     navbarText: base.navbarText || base.text,
@@ -103,10 +114,35 @@ function buildTheme(id, name, category, base) {
   // rgbCycle: theme haye "gaming" in ro true migozaran - ye animation e mojaza
   // (hue-rotate) dokme haye primary va glow e contribution graph ro dayeman
   // az beyne tayfe rang ubur mide, mesle RGB e sakht-afzar haye gaming
-  return { id, name, category, colors, rgbCycle: !!base.rgbCycle };
+  return { id, name, category, colors, rgbCycle: !!base.rgbCycle, scene: base.scene || null, tagline: base.tagline || "" };
 }
 
 VELNAR.PRESET_THEMES = [
+  buildTheme("spider-man", "Spider-Man", "cinematic", {
+    bg: "#090f21", bgAlt: "#111e38", text: "#edf4ff", textMuted: "#a2b4d0",
+    accent: "#ff4562", accent2: "#38a9ff", success: "#62deb5", warning: "#ffd166", error: "#ff667d", navbar: "#0c142a",
+    scene: "spider-man", tagline: "Web lines. Electric nights."
+  }),
+  buildTheme("the-last-of-us", "The Last of Us", "cinematic", {
+    bg: "#0c120f", bgAlt: "#18241c", text: "#e9eee2", textMuted: "#acbaa0",
+    accent: "#bbd78a", accent2: "#dfa567", success: "#97cf95", warning: "#e6ba73", error: "#df8072", navbar: "#101b14",
+    scene: "the-last-of-us", tagline: "Life finds a way through."
+  }),
+  buildTheme("red-dead", "Red Dead", "cinematic", {
+    bg: "#190c0b", bgAlt: "#2a1712", text: "#fff0d5", textMuted: "#c9a992",
+    accent: "#f1b45d", accent2: "#e94b39", success: "#b8c987", warning: "#f2c278", error: "#ff7460", navbar: "#240b0b",
+    scene: "red-dead", tagline: "Ride into the last light."
+  }),
+  buildTheme("rick-and-morty", "Rick and Morty", "cinematic", {
+    bg: "#0b1015", bgAlt: "#152526", text: "#edffe7", textMuted: "#adceaf",
+    accent: "#b2f45d", accent2: "#58dfe8", success: "#98ef80", warning: "#ffe16b", error: "#ff7c95", navbar: "#102020",
+    scene: "rick-and-morty", tagline: "One portal. Infinite branches."
+  }),
+  buildTheme("iron-man", "Iron Man", "cinematic", {
+    bg: "#160d12", bgAlt: "#28191e", text: "#fff2df", textMuted: "#cbb7a7",
+    accent: "#edbb67", accent2: "#6de5ff", success: "#82ddc7", warning: "#ffd176", error: "#ff7474", navbar: "#270e17",
+    scene: "iron-man", tagline: "Power the next invention."
+  }),
   buildTheme("dark", "Dark", "official", {
     bg: "#0d1117", bgAlt: "#161b22", text: "#e6edf3", textMuted: "#8b949e",
     accent: "#00c2d7", success: "#3fb950", warning: "#d29922", error: "#f85149", navbar: "#010409"
@@ -242,3 +278,20 @@ VELNAR.PRESET_THEMES = [
 VELNAR.getThemeById = function (id) {
   return VELNAR.PRESET_THEMES.find((t) => t.id === id) || null;
 };
+
+// Film, television and game expansion. Existing ids and saved settings stay valid.
+VELNAR.PRESET_THEMES.push(...[
+  ["batman","Batman","Gotham after dark","#0a101b","#162235","#efcc66","#90b9df"],
+  ["star-wars","Star Wars","The dark side awakens","#120b16","#251a2d","#ff6a75","#9ac5ff"],
+  ["harry-potter","Harry Potter","A little magic in every commit","#19101b","#302030","#edc477","#b09de7"],
+  ["deadpool","Deadpool","Maximum effort. Every commit.","#180d13","#301923","#ff6c83","#c9cbd8"],
+  ["stranger-things","Stranger Things","Welcome to the Upside Down","#101024","#20203b","#ff7975","#9aabff"],
+  ["wednesday","Wednesday","Beautifully out of the ordinary","#110f1c","#242036","#c5a6ed","#b0c8d2"],
+  ["squid-game","Squid Game","Your next move matters","#091b1c","#123333","#ff7aac","#79d9c1"],
+  ["god-of-war","God of War","Forge your own saga","#101a21","#20313a","#f08c85","#92d7eb"],
+  ["assassins-creed","Assassin's Creed","Work in the dark. Build in the light.","#17151b","#2c2830","#e6c7a0","#f28888"],
+  ["minecraft","Minecraft","One block. Endless possibilities.","#101b13","#233426","#a2d977","#d2b383"]
+].map(([id,name,tagline,bg,bgAlt,accent,accent2])=>buildTheme(id,name,"cinematic",{
+  scene:id,tagline,bg,bgAlt,accent,accent2,text:"#f2f3f5",textMuted:"#b5becb",navbar:bg,
+  success:"#80c998",warning:"#e6be77",error:"#ef848c"
+})));

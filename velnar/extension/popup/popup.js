@@ -1,127 +1,45 @@
-// mantegh e popup - list e theme haro neshun mide va enable/disable ro handle mikone
 (async function () {
-  const themeGrid = document.getElementById("themeGrid");
-  const themeCount = document.getElementById("themeCount");
-  const enabledSwitch = document.getElementById("enabledSwitch");
-  const btnReset = document.getElementById("btnReset");
-  const btnSettings = document.getElementById("btnSettings");
-  const btnRandom = document.getElementById("btnRandom");
-  const btnAnimations = document.getElementById("btnAnimations");
-  const autoDarkBanner = document.getElementById("autoDarkBanner");
-  const btnDisableAutoDark = document.getElementById("btnDisableAutoDark");
-
+  const $ = id => document.getElementById(id);
+  const UI = VELNAR.UI;
   let settings = await VELNAR.Storage.get();
-
-  function orderedThemes() {
-    const favs = settings.favoriteThemeIds || [];
-    const favThemes = VELNAR.PRESET_THEMES.filter((t) => favs.includes(t.id));
-    const restThemes = VELNAR.PRESET_THEMES.filter((t) => !favs.includes(t.id));
-    return [...favThemes, ...restThemes];
-  }
-
-  function renderBanner() {
-    autoDarkBanner.style.display = settings.autoDarkMode ? "block" : "none";
-  }
-
-  let popupFirstRender = true;
-
-  function renderThemes(justAppliedId) {
-    themeGrid.innerHTML = "";
-    themeCount.textContent = VELNAR.PRESET_THEMES.length + " themes";
-    const favs = settings.favoriteThemeIds || [];
-    orderedThemes().forEach((theme, i) => {
-      const el = document.createElement("div");
-      const isActive = settings.activeThemeId === theme.id && !settings.customThemeApplied;
-      el.className = "gs-theme-swatch"
-        + (isActive ? " is-active" : "")
-        + (theme.id === justAppliedId ? " is-just-applied" : "")
-        + (popupFirstRender ? " gs-swatch-entrance" : "");
-      if (popupFirstRender) el.style.animationDelay = Math.min(i * 0.02, 0.3) + "s";
-      el.style.background = theme.colors.background;
-      el.title = theme.name;
-      const isFav = favs.includes(theme.id);
-      el.innerHTML = `
-        <span class="gs-star${isFav ? " is-fav" : ""}" data-id="${theme.id}">★</span>
-        <span class="gs-dot" style="background:linear-gradient(135deg, ${theme.colors.accent}, ${theme.colors.accentSecondary || theme.colors.accent})"></span>
-        <span>${theme.name}</span>`;
-      el.addEventListener("click", async (e) => {
-        if (e.target.classList.contains("gs-star")) return; // star click ro joda handle mikonim
-        // optimistic UI: fori active neshun bede, montazere round-trip e storage namun
-        // (in daghigh hamun jaii boud ke "click mikonam kar nemikone" ehsas mishod)
-        themeGrid.querySelectorAll(".gs-theme-swatch").forEach((s) => s.classList.remove("is-active"));
-        el.classList.add("is-active");
-        // Auto Dark Mode age roshan bashe khodesh theme ro override mikone va click bi asar mishe -
-        // pas hamzaman ba entekhabe dasti, khamushesh mikonim ta click hamishe natije ye vazeh dashte bashe
-        settings = await VELNAR.Storage.set({ activeThemeId: theme.id, customThemeApplied: false, autoDarkMode: false });
-        renderBanner();
-        renderThemes(theme.id);
-      });
-      themeGrid.appendChild(el);
+  function render() {
+    UI.switch($("enabledSwitch"), settings.enabled);
+    $("extensionState").textContent = settings.enabled ? "Active on GitHub" : "Paused";
+    $("autoDarkBanner").hidden = !settings.autoDarkMode;
+    $("btnAnimations").setAttribute("aria-pressed", String(settings.animationsEnabled));
+    $("btnAnimations").classList.toggle("gs-btn-active", settings.animationsEnabled);
+    $("themeGrid").replaceChildren();
+    const query = $("themeSearch").value.toLowerCase().trim();
+    const themes = [...VELNAR.PRESET_THEMES].sort((a, b) => Number(settings.favoriteThemeIds.includes(b.id)) - Number(settings.favoriteThemeIds.includes(a.id))).filter(theme => theme.name.toLowerCase().includes(query));
+    $("themeCount").textContent = `${themes.length} themes`;
+    $("themeEmpty").hidden = themes.length > 0;
+    themes.forEach(theme => {
+      const active = UI.activeThemeId(settings) === theme.id && !(settings.customThemeApplied && !settings.autoDarkMode);
+      const item = document.createElement("div"); item.className = "gs-theme-swatch"; item.classList.toggle("is-active", active);
+      const choose = document.createElement("button"); choose.type = "button"; choose.className = "gs-theme-select";
+      choose.style.background = theme.colors.background; choose.style.color = theme.colors.textPrimary;
+      choose.setAttribute("aria-label", `Apply ${theme.name} theme`); choose.setAttribute("aria-pressed", String(active));
+      const dot = document.createElement("i"); dot.className = "gs-dot"; dot.style.background = `linear-gradient(135deg, ${theme.colors.accent}, ${theme.colors.accentSecondary})`;
+      const name = document.createElement("span"); name.className = "gs-swatch-name"; name.textContent = theme.name;
+      choose.append(dot, name);
+      if (theme.scene) { item.classList.add("vn-cinematic-swatch"); const art = document.createElement("div"); art.className = "vn-popup-art"; art.innerHTML = VELNAR.SceneArt.svg(theme.scene); choose.prepend(art); }
+      UI.on(choose, "click", async () => { settings = await VELNAR.Storage.selectTheme(theme.id); render(); UI.status(`${theme.name} applied.`); });
+      const star = document.createElement("button"); star.type = "button"; star.className = "gs-star"; star.textContent = "★";
+      star.classList.toggle("is-fav", settings.favoriteThemeIds.includes(theme.id)); star.setAttribute("aria-label", `Favorite ${theme.name}`); star.setAttribute("aria-pressed", String(settings.favoriteThemeIds.includes(theme.id)));
+      UI.on(star, "click", async () => { settings = await VELNAR.Storage.toggleFavorite(theme.id); render(); });
+      item.append(choose, star); $("themeGrid").append(item);
     });
-    themeGrid.querySelectorAll(".gs-star").forEach((star) => {
-      star.addEventListener("click", async (e) => {
-        e.stopPropagation();
-        const id = star.dataset.id;
-        const current = new Set(settings.favoriteThemeIds || []);
-        if (current.has(id)) current.delete(id);
-        else current.add(id);
-        settings = await VELNAR.Storage.set({ favoriteThemeIds: [...current] });
-        renderThemes();
-      });
-    });
-    popupFirstRender = false;
   }
-
-  function renderSwitch() {
-    enabledSwitch.classList.toggle("is-on", !!settings.enabled);
-  }
-
-  function renderAnimationsBtn() {
-    btnAnimations.classList.toggle("gs-btn-active", !!settings.animationsEnabled);
-  }
-
-  enabledSwitch.addEventListener("click", async () => {
-    settings = await VELNAR.Storage.set({ enabled: !settings.enabled });
-    renderSwitch();
+  UI.on($("themeSearch"), "input", render);
+  UI.on($("enabledSwitch"), "click", async () => { settings = await VELNAR.Storage.toggle("enabled"); render(); });
+  UI.on($("btnRandom"), "click", async () => { settings = await VELNAR.Storage.randomTheme(); render(); });
+  UI.on($("btnAnimations"), "click", async () => { settings = await VELNAR.Storage.toggle("animationsEnabled"); render(); });
+  UI.on($("btnReset"), "click", async () => {
+    settings = await VELNAR.Storage.set({ activeThemeId: "dark", customThemeApplied: false, customCss: "", customCssEnabled: false, autoDarkMode: false }); render(); UI.status("Theme reset.");
   });
-
-  btnRandom.addEventListener("click", async () => {
-    const pool = VELNAR.PRESET_THEMES.filter((t) => t.id !== settings.activeThemeId);
-    const pick = pool[Math.floor(Math.random() * pool.length)] || VELNAR.PRESET_THEMES[0];
-    settings = await VELNAR.Storage.set({ activeThemeId: pick.id, customThemeApplied: false, autoDarkMode: false });
-    renderBanner();
-    renderThemes(pick.id);
-  });
-
-  btnAnimations.addEventListener("click", async () => {
-    settings = await VELNAR.Storage.set({ animationsEnabled: !settings.animationsEnabled });
-    renderAnimationsBtn();
-  });
-
-  btnReset.addEventListener("click", async () => {
-    settings = await VELNAR.Storage.set({
-      activeThemeId: "dark",
-      customThemeApplied: false,
-      customCss: "",
-      customCssEnabled: false,
-      autoDarkMode: false
-    });
-    renderBanner();
-    renderThemes("dark");
-  });
-
-  btnDisableAutoDark.addEventListener("click", async () => {
-    settings = await VELNAR.Storage.set({ autoDarkMode: false });
-    renderBanner();
-    renderThemes();
-  });
-
-  btnSettings.addEventListener("click", () => {
-    chrome.runtime.openOptionsPage();
-  });
-
-  renderThemes();
-  renderSwitch();
-  renderAnimationsBtn();
-  renderBanner();
-})();
+  UI.on($("btnDisableAutoDark"), "click", async () => { settings = await VELNAR.Storage.set({ autoDarkMode: false }); render(); });
+  UI.on($("btnSettings"), "click", () => chrome.runtime.openOptionsPage());
+  VELNAR.Storage.onChange(next => { settings = next; render(); });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
+  render();
+})().catch(error => VELNAR.UI.status(error.message, true));

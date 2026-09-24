@@ -52,7 +52,7 @@ VELNAR.COMPONENTS = [
   { id: "markdown", label: "Markdown" },
   { id: "issues", label: "Issues" },
   { id: "pullRequests", label: "Pull Requests" },
-  { id: "profile", label: "Profile" },
+  { id: "profile", label: "Profile & cinematic atmosphere" },
   { id: "followers", label: "Followers/Following" },
   { id: "notifications", label: "Notifications" },
   { id: "commitList", label: "Commit List" },

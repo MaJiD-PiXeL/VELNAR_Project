@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>VELNAR — Fifteen cinematic worlds</title>
+  <link rel="icon" href="../icons/velnar-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="preview.css">
+</head>
+<body>
+  <div class="preview-controls">
+    <a class="preview-brand" href="../options/options.html"><img src="../icons/velnar-mark.svg" alt="">VELNAR</a>
+    <div><span class="eyebrow">CINEMATIC COLLECTION</span><p>Fifteen worlds. Your workspace.</p></div>
+    <button id="motionToggle" type="button" aria-pressed="true">Pause effects</button>
+  </div>
+  <nav class="world-tabs" id="worldTabs" aria-label="Choose a cinematic world"></nav>
+  <div class="preview-note"><span class="live-dot"></span> LIVE PREVIEW · DEMO REPOSITORY <span id="motionNote">Animations are on</span></div>
+  <div class="demo-shell">
+    <header class="AppHeader"><div class="AppHeader-globalBar"><span class="demo-mark">◈</span><strong>velnar / beyond</strong><span class="demo-path">Code / Ideas / Possibilities</span></div></header>
+    <div class="scene-banner">
+      <div class="scene-illustration" id="sceneIllustration" aria-hidden="true"></div>
+      <div class="scene-copy"><span class="scene-kicker" id="sceneKicker"></span><h1 id="sceneTitle"></h1><p id="sceneDescription"></p><button class="btn btn-primary" id="applyTheme" type="button">Use this theme on GitHub</button><span id="applyStatus" role="status" aria-live="polite"></span></div>
+    </div>
+    <main>
+      <div class="demo-heading"><div><span class="branch-label">⑂ main</span><span class="demo-muted">Your next idea starts here.</span></div><button class="btn" type="button" id="demoAction">Star this demo ☆</button></div>
+      <div class="demo-layout"><section class="Box files" aria-label="Demo repository files"><div class="Box-row"><span>▱ src</span><span>A little imagination goes a long way</span><span>now</span></div><div class="Box-row"><span>▱ adventures</span><span>Make something worth exploring</span><span>2h</span></div><div class="Box-row"><span>◇ README.md</span><span>Build beyond the ordinary</span><span>1d</span></div><div class="Box-row"><span>◇ package.json</span><span>Ready for your next chapter</span><span>1d</span></div></section><aside class="Layout-sidebar"><h2>About this world</h2><p id="effectDescription"></p><div class="color-dots" id="colorDots"></div><small>Original vector scenes. No external assets.</small></aside></div>
+      <section class="activity"><div class="activity-title"><h2>A year of building</h2><button class="btn" id="replayGraph" type="button">Replay scene ↻</button></div><div class="js-calendar-graph"><table class="js-calendar-graph-table" aria-label="Demo contribution graph"><tbody id="contributionCells"></tbody></table></div></section>
+    </main>
+  </div>
+  <footer>VELNAR 2.4.0 · Theme colors stay active when motion is paused. Reduced-motion preferences are respected.</footer>
+  <script src="../utils/constants.js"></script><script src="../themes/presets.js"></script><script src="../themes/character-art.js"></script><script src="../themes/collection-art.js"></script><script src="../themes/scene-art.js"></script><script src="../utils/validator.js"></script><script src="../utils/storage.js"></script><script src="../content/injector.js"></script><script src="../content/world.js"></script><script src="../content/collection-stories.js"></script><script src="../content/graph-scenes.js"></script><script src="../content/cinema.js"></script><script src="preview.js"></script>
+</body>
+</html>
