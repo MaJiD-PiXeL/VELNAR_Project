@@ -4,13 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>VELNAR — Make GitHub Yours</title>
-<link rel="icon" type="image/png" href="../extension/icons/icon48.png" />
+<link rel="icon" type="image/svg+xml" href="../extension/icons/velnar-mark.svg" />
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
 <nav class="nav">
-  <div class="nav-brand"><img class="brand-logo" src="../extension/icons/icon48.png" alt="VELNAR" />VELNAR</div>
+  <div class="nav-brand"><img class="brand-logo" src="../extension/icons/velnar-mark.svg" alt="VELNAR" />VELNAR</div>
   <div class="nav-links">
     <a href="#features">Features</a>
     <a href="#preview">Themes</a>
@@ -24,11 +24,11 @@
 
 <header class="hero">
   <h1>Make GitHub <span class="accent">Yours.</span></h1>
-  <p>Customize GitHub with powerful themes, colors and styles.</p>
+  <p>Fifteen cinematic worlds. 45 palettes. A GitHub that feels like yours.</p>
   <div class="hero-actions">
-    <a class="btn btn-primary" id="install" href="#">Install Extension</a>
-    <a class="btn btn-ghost" href="#preview">Explore Themes</a>
-    <a class="btn btn-ghost" href="https://github.com/" target="_blank" rel="noopener">GitHub Repository</a>
+    <a class="btn btn-primary" id="install" href="../dist/velnar-extension.zip" download>Download Extension</a>
+    <a class="btn btn-ghost" href="../extension/preview/preview.html">Preview the 15 worlds ↗</a>
+    <a class="btn btn-ghost" href="#how">Installation guide</a>
   </div>
   <div class="hero-preview">
     <div class="mock-window">
@@ -49,9 +49,9 @@
 <section id="features" class="section">
   <h2>Features</h2>
   <div class="grid grid-3">
-    <div class="card"><h3>✨ Animated Theme</h3><p>Optional glow, gradient navbar shift and smooth hover transitions — a theme that moves, not just sits there.</p></div>
-    <div class="card"><h3>30 Built-in Themes</h3><p>From GitHub Classic to RGB Chroma, Aurora, Neon Grid, Nord, Dracula and more — including 4 Gaming themes with live RGB color-cycling.</p></div>
-    <div class="card"><h3>Deep Theme Builder</h3><p>Customize 28 individual colors — surfaces, text, interactive states, borders and status.</p></div>
+    <div class="card"><h3>15 Cinematic Worlds</h3><p>From Spider-Man and Batman to Hogwarts, the Upside Down and Minecraft. Fifteen illustrated worlds, each with its own character and contribution-grid story.</p></div>
+    <div class="card"><h3>45 Built-in Themes</h3><p>The cinematic collection joins GitHub Classic, RGB Chroma, Aurora, Neon Grid, Nord, Dracula and more. Preview, choose and make it yours.</p></div>
+    <div class="card"><h3>Deep Theme Builder</h3><p>Customize 30 individual colors — surfaces, text, interactive states, borders and status.</p></div>
     <div class="card"><h3>Per-Component Control</h3><p>Turn theming on or off for navbar, sidebar, code, issues, PRs and 12 more areas individually.</p></div>
     <div class="card"><h3>Typography & Layout</h3><p>Font family, size, line height, weight, plus border radius and shadow intensity.</p></div>
     <div class="card"><h3>Custom CSS</h3><p>Write your own CSS with validation and one-click reset.</p></div>
@@ -80,9 +80,9 @@
 <section id="how" class="section alt">
   <h2>How It Works</h2>
   <div class="grid grid-3">
-    <div class="card"><h3>1. Install</h3><p>Add VELNAR from the Chrome Web Store or load it unpacked.</p></div>
-    <div class="card"><h3>2. Pick a theme</h3><p>Choose a preset or open the Theme Builder to design your own.</p></div>
-    <div class="card"><h3>3. Browse GitHub</h3><p>Your theme applies instantly and persists across navigation.</p></div>
+    <div class="card"><h3>1. Install</h3><p>Download the ZIP and extract it. Open chrome://extensions or edge://extensions and enable Developer mode.</p></div>
+    <div class="card"><h3>2. Load the extension</h3><p>Click Load unpacked and select the extracted folder containing manifest.json.</p></div>
+    <div class="card"><h3>3. Make it yours</h3><p>Visit GitHub, open VELNAR from your toolbar and choose a theme. Your choices stay on this device.</p></div>
   </div>
 </section>
 
@@ -102,15 +102,17 @@
 </section>
 
 <footer class="footer">
-  <div class="footer-brand"><img class="brand-logo" src="../extension/icons/icon48.png" alt="VELNAR" />VELNAR</div>
+  <div class="footer-brand"><img class="brand-logo" src="../extension/icons/velnar-mark.svg" alt="VELNAR" />VELNAR</div>
   <div class="footer-links">
-    <a href="https://github.com/" target="_blank" rel="noopener">GitHub Repository</a>
+    <a href="../README.md">Documentation</a>
     <a href="#privacy">Privacy</a>
     <a href="#faq">FAQ</a>
   </div>
   <p class="footer-note">Open source, local-first, no tracking.</p>
 </footer>
 
+<script src="../extension/utils/constants.js"></script>
+<script src="../extension/themes/presets.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

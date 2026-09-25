@@ -28,12 +28,19 @@ VELNAR.Storage = {
     const run = async () => {
       let next;
       if (action === "reset") next = structuredClone(VELNAR.DEFAULT_SETTINGS);
-      else if (action === "restore") next = VELNAR.Validator.settings(payload);
+      else if (action === "restore") {
+        if (!VELNAR.Validator.isRecord(payload) || !Object.keys(VELNAR.DEFAULT_SETTINGS).some(key => Object.hasOwn(payload, key))) throw new Error("This file is not a settings backup.");
+        next = VELNAR.Validator.settings(payload);
+      }
       else {
         const current = await this.get();
         if (action === "patch") {
           if (!VELNAR.Validator.isRecord(payload)) throw new Error("Settings must be an object.");
           next = VELNAR.Validator.settings(this._merge(current, payload));
+        } else if (action === "select") {
+          const theme = VELNAR.getThemeById(payload);
+          if (!theme) throw new Error("Unknown theme.");
+          next = { ...current, activeThemeId: theme.id, customThemeApplied: false, autoDarkMode: false, animationsEnabled: theme.scene ? true : current.animationsEnabled };
         } else if (action === "toggle") {
           if (typeof current[payload] !== "boolean") throw new Error("Unknown toggle.");
           next = VELNAR.Validator.settings({ ...current, [payload]: !current[payload] });
@@ -47,7 +54,8 @@ VELNAR.Storage = {
           next = { ...current, favoriteThemeIds: [...favorites] };
         } else if (action === "random") {
           const pool = VELNAR.PRESET_THEMES.filter(theme => theme.id !== current.activeThemeId);
-          next = { ...current, activeThemeId: pool[Math.floor(Math.random() * pool.length)].id, customThemeApplied: false, autoDarkMode: false };
+          const theme = pool[Math.floor(Math.random() * pool.length)];
+          next = { ...current, activeThemeId: theme.id, customThemeApplied: false, autoDarkMode: false, animationsEnabled: theme.scene ? true : current.animationsEnabled };
         } else throw new Error("Unknown settings action.");
       }
       await new Promise((resolve, reject) => chrome.storage.local.set({ [VELNAR.STORAGE_KEY]: next }, () => {
@@ -70,6 +78,7 @@ VELNAR.Storage = {
     }));
   },
   set(partial) { return this._request("patch", partial); },
+  selectTheme(id) { return this._request("select", id); },
   restore(settings) { return this._request("restore", settings); },
   reset() { return this._request("reset"); },
   toggle(key) { return this._request("toggle", key); },

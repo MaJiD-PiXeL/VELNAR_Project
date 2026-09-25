@@ -129,3 +129,10 @@ details p { color: var(--text-secondary); font-size: 13px; margin: 10px 0 0; lin
   .nav-links { display: none; }
   .builder-preview { grid-template-columns: 1fr; }
 }
+:root { --accent: #7c9dff; --bg: #08090c; --bg-alt: #10131b; }
+.brand-logo { border-radius: 0; width: 40px; height: 40px; }
+.nav-brand, .footer-brand { letter-spacing: .12em; }
+.hero h1 { letter-spacing: -.045em; }
+.theme-chip span { padding: 5px 9px; border-radius: 5px; text-shadow: none; }
+a:focus-visible, summary:focus-visible { outline: 2px solid #7c9dff; outline-offset: 5px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }

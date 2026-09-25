@@ -29,7 +29,7 @@ VELNAR.Validator = {
     const rgba = value.match(/^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})(?:\s*,\s*(0(?:\.\d+)?|1(?:\.0+)?))?\s*\)$/i);
     return !!rgba && rgba.slice(1, 4).every(v => Number(v) <= 255) && (/^rgba/i.test(value) === (rgba[4] !== undefined));
   },
-  theme(input, fallbackColors = VELNAR.PRESET_THEMES[0].colors) {
+  theme(input, fallbackColors = VELNAR.getThemeById("dark").colors) {
     if (!this.isRecord(input)) throw new Error("Theme must be a JSON object.");
     const source = input.colors === undefined ? input : input.colors;
     if (!this.isRecord(source)) throw new Error("Theme colors must be an object.");
