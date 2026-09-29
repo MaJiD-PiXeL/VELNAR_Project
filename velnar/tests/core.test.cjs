@@ -44,7 +44,7 @@ function harness(initial = {}) {
 
 test("manifest files exist and service worker starts without window", () => {
   const manifest = JSON.parse(source("manifest.json"));
-  assert.equal(manifest.version, "2.4.0"); assert.ok(manifest.description.length <= 132);
+  assert.equal(manifest.version, "2.4.5"); assert.ok(manifest.description.length <= 132);
   for (const file of [...manifest.content_scripts[0].js, ...Object.values(manifest.icons), manifest.background.service_worker, manifest.options_page, manifest.action.default_popup]) assert.ok(fs.existsSync(path.join(root, file)), file);
   const h = harness(); assert.equal(h.messages.length, 1); assert.equal(h.commands.length, 1); assert.equal(h.installs.length, 1);
 });

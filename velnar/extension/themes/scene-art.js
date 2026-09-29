@@ -33,6 +33,42 @@ VELNAR.SceneArt = (() => {
       @keyframes vn-orbit { to { transform:rotate(360deg); } }
       @keyframes vn-pulse { 50% { opacity:.55; } }
       @keyframes vn-subject { 50% { transform:translateY(-5px); } }
+      @keyframes vn-banner-spider { 0%,100%{transform:translate(0,0) rotate(0)}30%{transform:translate(-7px,-8px) rotate(-3deg)}62%{transform:translate(8px,-3px) rotate(4deg)} }
+      @keyframes vn-banner-ellie { 0%,100%{transform:translate(0,0) rotate(0)}37%{transform:translate(2px,3px) rotate(-3deg)}72%{transform:translate(-3px,-2px) rotate(2deg)} }
+      @keyframes vn-banner-arthur { 0%,100%{transform:translate(0,0) rotate(0)}30%{transform:translate(3px,0) rotate(-2deg)}39%{transform:translate(-2px,1px) rotate(2deg)}68%{transform:translate(1px,-2px)} }
+      @keyframes vn-banner-rick { 0%,100%{transform:translate(0,1px)}28%{transform:translate(-5px,-4px) rotate(-2deg)}62%{transform:translate(5px,-1px) rotate(2deg)} }
+      @keyframes vn-banner-iron { 0%,100%{transform:translate(0,2px) rotate(0)}35%{transform:translate(-5px,-6px) rotate(-3deg)}68%{transform:translate(7px,-2px) rotate(3deg)} }
+      @keyframes vn-banner-batman { 0%,100%{transform:translate(0,0) rotate(0)}33%{transform:translate(-8px,-7px) rotate(-3deg)}70%{transform:translate(8px,-4px) rotate(3deg)} }
+      @keyframes vn-banner-vader { 0%,100%{transform:translate(0,1px) rotate(0)}32%{transform:translate(-2px,0) rotate(-1deg)}61%{transform:translate(3px,-2px) rotate(1deg)} }
+      @keyframes vn-banner-harry { 0%,100%{transform:translate(0,1px) rotate(0)}35%{transform:translate(-3px,-5px) rotate(-2deg)}68%{transform:translate(4px,-2px) rotate(2deg)} }
+      @keyframes vn-banner-deadpool { 0%,100%{transform:translate(0,0) rotate(0)}28%{transform:translate(-3px,-3px) rotate(-4deg)}46%{transform:translate(3px,0) rotate(4deg)}65%{transform:translate(-2px,-2px) rotate(-3deg)} }
+      @keyframes vn-banner-eleven { 0%,100%{transform:translate(0,0)}36%{transform:translate(-3px,-9px) rotate(-2deg)}69%{transform:translate(4px,-5px) rotate(2deg)} }
+      @keyframes vn-banner-wednesday { 0%,100%{transform:translate(0,0) rotate(0)}28%{transform:translate(-3px,-2px) rotate(-4deg)}48%{transform:translate(3px,0) rotate(4deg)}69%{transform:translate(-2px,-2px) rotate(-3deg)} }
+      @keyframes vn-banner-squid { 0%,100%{transform:translate(0,0)}34%{transform:translate(-2px,1px) rotate(-1deg)}61%{transform:translate(2px,-1px) rotate(1deg)} }
+      @keyframes vn-banner-kratos { 0%,100%{transform:translate(0,0) rotate(0)}34%{transform:translate(-3px,1px) rotate(-3deg)}43%{transform:translate(3px,-2px) rotate(3deg)}69%{transform:translate(1px,0) rotate(-1deg)} }
+      @keyframes vn-banner-ezio { 0%,100%{transform:translate(0,0) rotate(0)}30%{transform:translate(-5px,-6px) rotate(-4deg)}50%{transform:translate(3px,-2px) rotate(2deg)}72%{transform:translate(-2px,0) rotate(-1deg)} }
+      @keyframes vn-banner-steve { 0%,100%{transform:translate(0,1px)}31%{transform:translate(-2px,-2px) rotate(-2deg)}39%{transform:translate(2px,1px) rotate(2deg)}56%{transform:translate(0,0)} }
+      @keyframes vn-cape { 0%,100%{transform:skewX(0) scaleX(1)}50%{transform:skewX(-5deg) scaleX(1.04)} }
+      @media (prefers-reduced-motion:no-preference) {
+        .vn-art--spider-man .vn-subject{animation:vn-banner-spider 5.2s ease-in-out infinite}
+        .vn-art--the-last-of-us .vn-subject{animation:vn-banner-ellie 6s ease-in-out infinite}
+        .vn-art--red-dead .vn-subject{animation:vn-banner-arthur 7s ease-in-out infinite}
+        .vn-art--rick-and-morty .vn-subject{animation:vn-banner-rick 5.7s ease-in-out infinite}
+        .vn-art--iron-man .vn-subject{animation:vn-banner-iron 4.8s ease-in-out infinite}
+        .vn-art--batman .vn-subject{animation:vn-banner-batman 5.1s ease-in-out infinite}
+        .vn-art--star-wars .vn-subject{animation:vn-banner-vader 6.2s ease-in-out infinite}
+        .vn-art--harry-potter .vn-subject{animation:vn-banner-harry 5.5s ease-in-out infinite}
+        .vn-art--deadpool .vn-subject{animation:vn-banner-deadpool 4.5s ease-in-out infinite}
+        .vn-art--stranger-things .vn-subject{animation:vn-banner-eleven 5.3s ease-in-out infinite}
+        .vn-art--wednesday .vn-subject{animation:vn-banner-wednesday 4.8s ease-in-out infinite}
+        .vn-art--squid-game .vn-subject{animation:vn-banner-squid 5.8s ease-in-out infinite}
+        .vn-art--god-of-war .vn-subject{animation:vn-banner-kratos 5.4s ease-in-out infinite}
+        .vn-art--assassins-creed .vn-subject{animation:vn-banner-ezio 5.1s ease-in-out infinite}
+        .vn-art--minecraft .vn-subject{animation:vn-banner-steve 4.4s ease-in-out infinite}
+        .vn-art--batman .hero-cape{transform-box:fill-box;transform-origin:50% 8%;animation:vn-cape 2.8s ease-in-out infinite}
+        .vn-art--star-wars .hero-saber{filter:drop-shadow(0 0 5px #ff405f);animation:vn-banner-saber 1.4s ease-in-out infinite alternate}
+        @keyframes vn-banner-saber{to{opacity:.72;filter:drop-shadow(0 0 11px #ff405f)}}
+      }
       @keyframes vn-sway { 50% { transform:rotate(3deg); } }
       @keyframes vn-web-draw { 0% { stroke-dashoffset:850; opacity:.1; } 35%,85% { stroke-dashoffset:0; opacity:1; } 100% { stroke-dashoffset:0; opacity:.1; } }
       @media (prefers-reduced-motion:no-preference) {

@@ -6,7 +6,7 @@ VELNAR.CollectionArt = (() => {
   const ink = body => `<g stroke="#17202c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${body}</g>`;
   const characters = {
     'batman': ink(`
-      <path d="M57 51Q26 64 6 164l26-15 10 26 20-13 19 19 19-19 23 13 9-24 24 10Q141 75 105 51Z" fill="#0d1524"/>
+      <path class="hero-cape" d="M57 51Q26 64 6 164l26-15 10 26 20-13 19 19 19-19 23 13 9-24 24 10Q141 75 105 51Z" fill="#0d1524"/>
       <path d="M58 62Q38 111 31 151m69-91q24 36 33 88M59 66 48 153m47-88 19 91" stroke="#303d52" fill="none"/>
       <path d="m57 107 45 0-3 31-8 37-17 0 1-41-8 0-5 41-17-1 3-41Z" fill="#536176"/>
       <path d="m47 153 18 2-2 29-13 5H35v-9l11-10Zm30 1h18l5 18 12 9-2 8H78l-3-12Z" fill="#151f31"/>
@@ -42,7 +42,7 @@ VELNAR.CollectionArt = (() => {
       <path d="m77 30 2-17 3 17-3 9m-1 0-15 17h32L81 39Z" fill="#111a26" stroke="#82909c"/>
       <path d="m74 46-3 7m7-8v8m5-7 3 7" stroke="#a9b4c4"/>
       <circle cx="64" cy="49" r="3" fill="#87939f"/><circle cx="96" cy="49" r="3" fill="#87939f"/>
-      <path d="m138 109 0-69" stroke="#ff475f" stroke-width="7"/><path d="m138 109 0-69" stroke="#fff0f1" stroke-width="2.8"/><path d="M135 110h6v17h-6Z" fill="#8c98ac"/>
+      <g class="hero-saber"><path d="m138 109 0-69" stroke="#ff475f" stroke-width="7"/><path d="m138 109 0-69" stroke="#fff0f1" stroke-width="2.8"/><path d="M135 110h6v17h-6Z" fill="#8c98ac"/></g>
     `),
     'harry-potter': ink(`
       <path d="m53 54-18 13-11 86 27-7 9 12h39l15-16 20 10-16-80-18-19Z" fill="#20202d"/>

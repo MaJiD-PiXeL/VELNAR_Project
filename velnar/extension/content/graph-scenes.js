@@ -95,7 +95,7 @@ VELNAR.GraphScenes = {
     }
   },
   _render(host,theme,{width,height,points:p}) {
-    const size=Math.min(76,Math.max(40,height*.78),height*.9);
+    const size=Math.min(86,Math.max(48,height*.82),height*.9);
     const actor=(name)=>`<div class="actor ${name}">${VELNAR.CharacterArt.svg(theme.id)}</div>`;
     const actorY=q=>Math.max(1,Math.min(height-size-1,q.y-size*.85));
     const target=(n,cls,body)=>`<div class="target ${cls}" style="left:${p[n].x}px;top:${p[n].y}px">${body}</div>`;
@@ -127,50 +127,61 @@ VELNAR.GraphScenes = {
   _css(scene) {
     const base=`
       :host,*{box-sizing:border-box;pointer-events:none!important;} .stage{position:absolute;inset:0;overflow:hidden;}
-      svg{display:block;width:100%;height:100%;overflow:visible;} .actor{position:absolute;left:0;top:0;width:var(--size);height:var(--size);transform-origin:center;}
-      .target{position:absolute;width:36px;height:36px;margin:-18px;transform-origin:center;opacity:0;}
-      .beam-wrap{position:absolute;height:2px;transform-origin:left center;}.beam-wrap i{display:block;height:100%;width:100%;transform-origin:left center;opacity:0;}
+      svg{display:block;width:100%;height:100%;overflow:visible;} .actor{position:absolute;left:0;top:0;width:var(--size);height:var(--size);transform-origin:center;isolation:isolate;}
+      .target{position:absolute;width:42px;height:42px;margin:-21px;transform-origin:center;opacity:0;}
+      .beam-wrap{position:absolute;height:3px;transform-origin:left center;}.beam-wrap i{display:block;height:100%;width:100%;transform-origin:left center;opacity:0;}
+      .actor::before{content:"";position:absolute;z-index:-1;left:8%;right:8%;bottom:2%;height:16%;border-radius:50%;background:radial-gradient(ellipse,var(--scene-glow,#a9dfff) 0,transparent 72%);opacity:.72;}
       :host([data-visible="false"]) *{animation-play-state:paused!important;}
       @media(prefers-reduced-motion:reduce){.stage{display:none;}}
     `;
     const css={
       'spider-man':`
-        .webman{animation:vn-graph-webman 14s linear infinite;}.thread i{animation:vn-graph-thread 14s linear infinite;}
-        .web-hit{animation:vn-graph-web-hit 14s ease-out infinite;}.web-hit.second,.thread.second i{animation-delay:4.6s;}
-        @keyframes vn-graph-webman{0%{transform:translate(-45px,var(--y0)) rotate(-18deg);opacity:0;}8%,24%{transform:translate(var(--x0),var(--y0));opacity:1;}33%{transform:translate(var(--x0),var(--y0)) rotate(-8deg);}43%{transform:translate(var(--x1),-8px) rotate(25deg);}55%,63%{transform:translate(var(--x2),var(--y2));}77%{transform:translate(var(--x3),-10px) rotate(20deg);}88%{transform:translate(var(--width),var(--y3)) rotate(-15deg);opacity:1;}89%,100%{transform:translate(var(--width),var(--y3));opacity:0;}}
+        .stage{--scene-glow:#4fc3f7}.webman{animation:vn-graph-webman 8s cubic-bezier(.42,0,.22,1) infinite;}.thread i{animation:vn-graph-thread 8s linear infinite;}
+        .webman .vn-character{transform-box:fill-box;transform-origin:50% 75%;animation:vn-spider-pose 8s ease-in-out infinite;will-change:transform;}
+        .web-hit{animation:vn-graph-web-hit 8s ease-out infinite;}.web-hit.second,.thread.second i{animation-delay:3.2s;}
+        @keyframes vn-graph-webman{0%{transform:translate(-45px,var(--y0)) rotate(-18deg);opacity:0;}8%,20%{transform:translate(var(--x0),var(--y0)) rotate(-8deg);opacity:1;}31%{transform:translate(var(--x1),-12px) rotate(32deg);}43%{transform:translate(var(--x2),-18px) rotate(-35deg);}55%,63%{transform:translate(var(--x2),var(--y2)) rotate(8deg);}77%{transform:translate(var(--x3),-12px) rotate(24deg);}88%,96%{transform:translate(var(--x3),var(--y3)) rotate(0);opacity:1;}100%{transform:translate(var(--width),var(--y3));opacity:0;}}
         @keyframes vn-graph-thread{0%,23%{transform:scaleX(0);opacity:0;}24%{transform:scaleX(.05);opacity:1;}28%,34%{transform:scaleX(1);opacity:.9;}42%,100%{transform:scaleX(1);opacity:0;}}
         @keyframes vn-graph-web-hit{0%,27%{transform:scale(.1);opacity:0;}31%,45%{transform:scale(1);opacity:.8;}58%,100%{transform:scale(1.1);opacity:0;}}
+        @keyframes vn-spider-pose{0%,20%{transform:rotate(0)}29%{transform:rotate(-5deg) translateY(-2px)}39%{transform:rotate(6deg) translateY(-3px)}47%,56%{transform:rotate(-3deg)}63%,76%{transform:rotate(2deg)}88%,100%{transform:rotate(0)}}
       `,
       'the-last-of-us':`
-        .survivor{animation:vn-graph-scout 18s linear infinite;}.flashlight{position:absolute;left:var(--light-x);top:var(--light-y);width:36%;height:90%;background:linear-gradient(90deg,#eddfa32e,transparent);clip-path:polygon(0 48%,100% 0,100% 100%);transform-origin:left center;animation:vn-graph-torch 18s ease-in-out infinite;}
-        .colony{animation:vn-graph-colony 18s ease-in-out infinite;transform-origin:center bottom;}.colony.second{animation-delay:3s;}.colony.third{animation-delay:6s;}
-        .firefly{position:absolute;left:0;top:0;width:4px;height:4px;border-radius:50%;background:#efffc2;box-shadow:0 0 8px #dfff91;animation:vn-graph-firefly 18s ease-in-out infinite;}
+        .stage{--scene-glow:#a7d98b}.survivor{animation:vn-graph-scout 9s cubic-bezier(.42,0,.22,1) infinite;}.flashlight{position:absolute;left:var(--light-x);top:var(--light-y);width:42%;height:90%;background:linear-gradient(90deg,#eddfa39c,transparent);clip-path:polygon(0 48%,100% 0,100% 100%);transform-origin:left center;animation:vn-graph-torch 9s ease-in-out infinite;}
+        .survivor .vn-character{transform-box:fill-box;transform-origin:50% 80%;animation:vn-survivor-pose 9s ease-in-out infinite;will-change:transform;}
+        .colony{animation:vn-graph-colony 9s ease-in-out infinite;transform-origin:center bottom;}.colony.second{animation-delay:2s;}.colony.third{animation-delay:4s;}
+        .firefly{position:absolute;left:0;top:0;width:4px;height:4px;border-radius:50%;background:#efffc2;box-shadow:0 0 8px #dfff91;animation:vn-graph-firefly 9s ease-in-out infinite;}
         @keyframes vn-graph-scout{0%{transform:translate(-40px,var(--y0));opacity:0;}10%{opacity:1;}35%,58%{transform:translate(var(--x1),var(--y0));}85%{transform:translate(var(--x3),var(--y0));opacity:1;}96%,100%{transform:translate(var(--width),var(--y0));opacity:0;}}
-        @keyframes vn-graph-torch{0%,32%,65%,100%{opacity:0;transform:rotate(-12deg);}39%,56%{opacity:.85;transform:rotate(8deg);}}
+        @keyframes vn-graph-torch{0%,27%,70%,100%{opacity:0;transform:rotate(-16deg);}35%,63%{opacity:.95;transform:rotate(12deg);}}
         @keyframes vn-graph-colony{0%,12%{transform:scale(.15);opacity:0;}35%,60%{transform:scale(1);opacity:.85;}82%,100%{transform:scale(1.05);opacity:0;}}
         @keyframes vn-graph-firefly{0%,100%{transform:translate(var(--cx0),var(--cy0));opacity:0;}25%{transform:translate(var(--cx1),var(--cy1));opacity:1;}50%{transform:translate(var(--cx2),var(--cy2));opacity:.8;}75%{transform:translate(var(--cx3),var(--cy3));opacity:1;}}
+        @keyframes vn-survivor-pose{0%,24%{transform:rotate(0) translateY(1px)}34%{transform:rotate(-5deg) translateY(2px)}42%,55%{transform:rotate(3deg) translateY(0)}67%{transform:rotate(-2deg)}83%,100%{transform:rotate(0)}}
       `,
       'red-dead':`
-        .outlaw{animation:vn-graph-gunslinger 16s linear infinite;}.crosshair{animation:vn-graph-deadeye 16s ease-out infinite;}.crosshair.second{animation-delay:5s;}
-        .bullet i{height:1px;animation:vn-graph-bullet 16s linear infinite;}.impact{animation:vn-graph-impact 16s ease-out infinite;}
+        .stage{--scene-glow:#d2a76f}.outlaw{animation:vn-graph-gunslinger 8s cubic-bezier(.42,0,.22,1) infinite;}.crosshair{animation:vn-graph-deadeye 8s ease-out infinite;}.crosshair.second{animation-delay:3.4s;}
+        .outlaw .vn-character{transform-box:fill-box;transform-origin:50% 78%;animation:vn-outlaw-pose 8s ease-in-out infinite;will-change:transform;}
+        .bullet i{height:1px;animation:vn-graph-bullet 8s linear infinite;}.impact{animation:vn-graph-impact 8s ease-out infinite;}
         @keyframes vn-graph-gunslinger{0%{transform:translate(-40px,var(--y0));opacity:0;}12%,30%{transform:translate(var(--x0),var(--y0));opacity:1;}31%{transform:translate(calc(var(--x0) - 3px),var(--y0)) rotate(-8deg);}35%,47%{transform:translate(var(--x0),var(--y0));}69%{transform:translate(var(--x2),var(--y2));}91%,100%{transform:translate(var(--width),var(--y2));opacity:0;}}
-        @keyframes vn-graph-deadeye{0%,16%{transform:scale(1.5);opacity:0;}23%,30%{transform:scale(1);opacity:.95;}35%,100%{transform:scale(.5);opacity:0;}}
-        @keyframes vn-graph-bullet{0%,30%{transform:scaleX(0);opacity:0;}31%{transform:scaleX(1);opacity:.9;}34%,100%{transform:scaleX(1);opacity:0;}}
-        @keyframes vn-graph-impact{0%,31%{transform:scale(.1);opacity:0;}33%{transform:scale(.6);opacity:.9;}38%,100%{transform:scale(1.1);opacity:0;}}
+        @keyframes vn-graph-deadeye{0%,15%{transform:scale(1.5);opacity:0;}22%,34%{transform:scale(1);opacity:.95;}42%,100%{transform:scale(.5);opacity:0;}}
+        @keyframes vn-graph-bullet{0%,29%{transform:scaleX(0);opacity:0;}31%{transform:scaleX(.08);opacity:1;}38%{transform:scaleX(1);opacity:1;}44%,100%{transform:scaleX(1);opacity:0;}}
+        @keyframes vn-graph-impact{0%,36%{transform:scale(.1);opacity:0;}39%{transform:scale(.6);opacity:1;}46%,100%{transform:scale(1.1);opacity:0;}}
+        @keyframes vn-outlaw-pose{0%,20%{transform:rotate(0)}27%{transform:rotate(-4deg) translateY(1px)}32%{transform:rotate(2deg)}36%{transform:rotate(-3deg)}44%,55%{transform:rotate(0)}72%,100%{transform:rotate(1deg)}}
       `,
       'rick-and-morty':`
-        .portal{width:34px;height:52px;margin:-26px -17px;animation:vn-graph-portal 16s ease-in-out infinite;}.portal.exit{animation-delay:1s;}.portal svg{animation:vn-graph-portal-wobble 4s ease-in-out infinite;}
-        .duo{animation:vn-graph-portal-walk 16s linear infinite;}
+        .stage{--scene-glow:#a7ed57}.portal{width:34px;height:52px;margin:-26px -17px;animation:vn-graph-portal 8s ease-in-out infinite;}.portal.exit{animation-delay:.7s;}.portal svg{animation:vn-graph-portal-wobble 4s ease-in-out infinite;}
+        .duo{animation:vn-graph-portal-walk 8s cubic-bezier(.42,0,.22,1) infinite;}
+        .duo .vn-character{transform-box:fill-box;transform-origin:50% 82%;animation:vn-duo-react 8s ease-in-out infinite;will-change:transform;}
         @keyframes vn-graph-portal{0%,4%{transform:scaleY(.05);opacity:0;}14%,76%{transform:scaleY(1);opacity:.95;}88%,100%{transform:scaleY(.05);opacity:0;}}
         @keyframes vn-graph-portal-wobble{50%{transform:rotate(8deg) scaleX(.9);}}
         @keyframes vn-graph-portal-walk{0%,12%{transform:translate(var(--x0),var(--y0)) scaleX(.05);opacity:0;}22%{transform:translate(var(--x0),var(--y0)) scaleX(1);opacity:1;}38%{transform:translate(var(--x1),var(--y2)) rotate(-3deg);}55%{transform:translate(var(--x2),var(--y2)) rotate(3deg);}70%{transform:translate(var(--x3),var(--y3)) scaleX(1);opacity:1;}78%,100%{transform:translate(var(--x3),var(--y3)) scaleX(.05);opacity:0;}}
+        @keyframes vn-duo-react{0%,24%{transform:translateY(2px) rotate(0)}33%{transform:translateY(-2px) rotate(-3deg)}43%{transform:translateY(1px) rotate(2deg)}55%{transform:translateY(-2px) rotate(-2deg)}68%,100%{transform:translateY(0) rotate(0)}}
       `,
       'iron-man':`
-        .ironman{animation:vn-graph-flight 15s ease-in-out infinite;}.repulsor i{height:3px;animation:vn-graph-repulsor 15s linear infinite;}.arc-hit{animation:vn-graph-arc-hit 15s ease-out infinite;}
-        .exhaust{position:absolute;left:0;top:0;width:6px;height:16px;margin-left:calc(var(--size)*.33);margin-top:calc(var(--size)*.82);background:linear-gradient(90deg,transparent,#82eaff);animation:vn-graph-flight 15s ease-in-out infinite;}
+        .stage{--scene-glow:#67d9f5}.ironman{animation:vn-graph-flight 8s cubic-bezier(.42,0,.22,1) infinite;}.repulsor i{height:4px;filter:drop-shadow(0 0 3px #67d9f5);animation:vn-graph-repulsor 8s linear infinite;}.arc-hit{animation:vn-graph-arc-hit 8s ease-out infinite;}
+        .ironman .vn-character{transform-box:fill-box;transform-origin:50% 78%;animation:vn-iron-pose 8s ease-in-out infinite;will-change:transform;}
+        .exhaust{position:absolute;left:0;top:0;width:6px;height:16px;margin-left:calc(var(--size)*.33);margin-top:calc(var(--size)*.82);background:linear-gradient(90deg,transparent,#82eaff);animation:vn-graph-flight 8s cubic-bezier(.42,0,.22,1) infinite;}
         @keyframes vn-graph-flight{0%{transform:translate(-45px,var(--y0)) rotate(65deg);opacity:0;}14%,25%{transform:translate(var(--x0),var(--y0));opacity:1;}28%,39%{transform:translate(var(--x0),calc(var(--y0) - 3px));}52%{transform:translate(var(--x1),var(--y1)) rotate(65deg);}72%{transform:translate(var(--x3),var(--y3)) rotate(70deg);opacity:1;}87%,100%{transform:translate(var(--width),-35px) rotate(65deg);opacity:0;}}
-        @keyframes vn-graph-repulsor{0%,25%{transform:scaleX(0);opacity:0;}28%,32%{transform:scaleX(1);opacity:.9;}39%,100%{transform:scaleX(1);opacity:0;}}
-        @keyframes vn-graph-arc-hit{0%,27%{transform:scale(.1);opacity:0;}31%{transform:scale(.8);opacity:1;}42%,100%{transform:scale(1.25);opacity:0;}}
+        @keyframes vn-graph-repulsor{0%,24%{transform:scaleX(0);opacity:0;}28%{transform:scaleX(.08);opacity:1;}36%{transform:scaleX(1);opacity:1;}42%,100%{transform:scaleX(1);opacity:0;}}
+        @keyframes vn-graph-arc-hit{0%,34%{transform:scale(.1);opacity:0;}37%{transform:scale(.8);opacity:1;}47%,100%{transform:scale(1.25);opacity:0;}}
+        @keyframes vn-iron-pose{0%,20%{transform:rotate(0) translateY(1px)}29%{transform:rotate(-4deg) translateY(-1px)}38%,52%{transform:rotate(2deg) translateY(1px)}64%,76%{transform:rotate(-2deg)}88%,100%{transform:rotate(0)}}
       `
     };
     return base+(css[scene]||'');

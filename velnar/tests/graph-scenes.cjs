@@ -70,7 +70,7 @@ async function until(read,expected){for(let i=0;i<80;i++){if(await read()===expe
     await options.evaluate(()=>VELNAR.Storage.selectTheme('dark'));await until(()=>page.locator('#velnar-graph-style').count(),0);
     await options.evaluate(()=>VELNAR.Storage.selectTheme('spider-man'));await page.goto('https://github.com/velnar-graph');await page.locator('.velnar-graph-scene').waitFor({state:'attached'});
     await options.evaluate(()=>VELNAR.Storage.set({enabled:false}));await until(()=>page.locator('.velnar-graph-scene').count(),0);assert.equal(await page.locator('#velnar-graph-style').count(),0);
-    assert.deepEqual(errors,[]);fs.writeFileSync(path.join(artifacts,'graph-scenes-results.json'),JSON.stringify({passed:true,version:'2.4.0',fixture:'Isolated Edge extension session with sample contribution data',worlds:report,resize:true,mobile:true,offscreenPause:true,lateReplacement:true,componentGates:true,reducedMotion:true,cleanup:true,errors},null,2));
+    assert.deepEqual(errors,[]);fs.writeFileSync(path.join(artifacts,'graph-scenes-results.json'),JSON.stringify({passed:true,version:'2.4.5',fixture:'Isolated Edge extension session with sample contribution data',worlds:report,resize:true,mobile:true,offscreenPause:true,lateReplacement:true,componentGates:true,reducedMotion:true,cleanup:true,errors},null,2));
     console.log('PASS: resize, mobile scroll, offscreen pause, settings, late replacement and cleanup');
   }finally{await context.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});
