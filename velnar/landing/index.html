@@ -1,118 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>VELNAR — Make GitHub Yours</title>
-<link rel="icon" type="image/svg+xml" href="../extension/icons/velnar-mark.svg" />
-<link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="VELNAR is a private, local-first visual studio for GitHub.">
+  <title>VELNAR — Your GitHub, in your world</title>
+  <link rel="icon" type="image/svg+xml" href="../extension/icons/velnar-mark.svg">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<nav class="nav">
-  <div class="nav-brand"><img class="brand-logo" src="../extension/icons/velnar-mark.svg" alt="VELNAR" />VELNAR</div>
-  <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#preview">Themes</a>
-    <a href="#builder">Builder</a>
-    <a href="#how">How It Works</a>
-    <a href="#privacy">Privacy</a>
-    <a href="#faq">FAQ</a>
-  </div>
-  <a class="nav-cta" href="#install">Install Extension</a>
-</nav>
-
-<header class="hero">
-  <h1>Make GitHub <span class="accent">Yours.</span></h1>
-  <p>Fifteen cinematic worlds. 45 palettes. A GitHub that feels like yours.</p>
-  <div class="hero-actions">
-    <a class="btn btn-primary" id="install" href="../dist/velnar-extension.zip" download>Download Extension</a>
-    <a class="btn btn-ghost" href="../extension/preview/preview.html">Preview the 15 worlds ↗</a>
-    <a class="btn btn-ghost" href="#how">Installation guide</a>
-  </div>
-  <div class="hero-preview">
-    <div class="mock-window">
-      <div class="mock-bar"><span></span><span></span><span></span></div>
-      <div class="mock-body">
-        <div class="mock-sidebar"></div>
-        <div class="mock-content">
-          <div class="mock-line w60"></div>
-          <div class="mock-line w40"></div>
-          <div class="mock-card"></div>
-          <div class="mock-card"></div>
-        </div>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="VELNAR home"><img src="../extension/icons/velnar-mark.svg" alt=""><span>VELNAR</span></a>
+    <nav aria-label="Primary navigation"><a href="#worlds">Worlds</a><a href="#studio">Studio</a><a href="#privacy">Privacy</a><a href="#install">Install</a></nav>
+    <a class="header-cta" href="../extension/preview/preview.html">Open live preview <span>↗</span></a>
+  </header>
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><i></i> LOCAL-FIRST GITHUB VISUAL STUDIO</p>
+        <h1>GitHub, with a<br><em>point of view.</em></h1>
+        <p class="hero-lede">VELNAR turns the GitHub you already use into a personal workspace—cinematic worlds, precise controls, and no account in the middle.</p>
+        <div class="hero-actions"><a class="button button-primary" href="../extension/preview/preview.html">Explore 15 worlds <span>→</span></a><a class="button button-quiet" href="#studio">See how it works</a></div>
+        <dl class="hero-facts"><div><dt>45</dt><dd>Ready-made palettes</dd></div><div><dt>30</dt><dd>Editable color tokens</dd></div><div><dt>0</dt><dd>Accounts or tracking</dd></div></dl>
       </div>
-    </div>
-  </div>
-</header>
-
-<section id="features" class="section">
-  <h2>Features</h2>
-  <div class="grid grid-3">
-    <div class="card"><h3>15 Cinematic Worlds</h3><p>From Spider-Man and Batman to Hogwarts, the Upside Down and Minecraft. Fifteen illustrated worlds, each with its own character and contribution-grid story.</p></div>
-    <div class="card"><h3>45 Built-in Themes</h3><p>The cinematic collection joins GitHub Classic, RGB Chroma, Aurora, Neon Grid, Nord, Dracula and more. Preview, choose and make it yours.</p></div>
-    <div class="card"><h3>Deep Theme Builder</h3><p>Customize 30 individual colors — surfaces, text, interactive states, borders and status.</p></div>
-    <div class="card"><h3>Per-Component Control</h3><p>Turn theming on or off for navbar, sidebar, code, issues, PRs and 12 more areas individually.</p></div>
-    <div class="card"><h3>Typography & Layout</h3><p>Font family, size, line height, weight, plus border radius and shadow intensity.</p></div>
-    <div class="card"><h3>Custom CSS</h3><p>Write your own CSS with validation and one-click reset.</p></div>
-    <div class="card"><h3>100% Local-first</h3><p>No analytics, no tracking, no ads, no data collection.</p></div>
-  </div>
-</section>
-
-<section id="preview" class="section alt">
-  <h2>Theme Preview</h2>
-  <div class="theme-strip" id="themeStrip"></div>
-</section>
-
-<section id="builder" class="section">
-  <h2>Theme Builder Preview</h2>
-  <div class="builder-preview">
-    <div class="builder-controls">
-      <div class="swatch-row"><span>Background</span><i style="background:#0d1117"></i></div>
-      <div class="swatch-row"><span>Accent</span><i style="background:#00c2d7"></i></div>
-      <div class="swatch-row"><span>Text</span><i style="background:#e6edf3"></i></div>
-      <div class="swatch-row"><span>Border</span><i style="background:#30363d"></i></div>
-    </div>
-    <p>Every color on GitHub — navbar, sidebar, buttons, code blocks and more — can be tuned individually and saved as your own theme.</p>
-  </div>
-</section>
-
-<section id="how" class="section alt">
-  <h2>How It Works</h2>
-  <div class="grid grid-3">
-    <div class="card"><h3>1. Install</h3><p>Download the ZIP and extract it. Open chrome://extensions or edge://extensions and enable Developer mode.</p></div>
-    <div class="card"><h3>2. Load the extension</h3><p>Click Load unpacked and select the extracted folder containing manifest.json.</p></div>
-    <div class="card"><h3>3. Make it yours</h3><p>Visit GitHub, open VELNAR from your toolbar and choose a theme. Your choices stay on this device.</p></div>
-  </div>
-</section>
-
-<section id="privacy" class="section">
-  <h2>Privacy</h2>
-  <p class="privacy-text">VELNAR never collects analytics, never tracks you, and never sends data to any server. All settings are stored locally in your browser using the Chrome Storage API. No GitHub tokens, cookies, or personal data are ever accessed or stored.</p>
-</section>
-
-<section id="faq" class="section alt">
-  <h2>FAQ</h2>
-  <div class="faq-list">
-    <details><summary>Does VELNAR change GitHub's functionality?</summary><p>No — VELNAR only changes appearance. All GitHub features work exactly as before.</p></details>
-    <details><summary>Is my data sent anywhere?</summary><p>No. VELNAR is fully local-first, everything stays in your browser.</p></details>
-    <details><summary>Can I write my own CSS?</summary><p>Yes, the Custom CSS panel lets you write and validate your own styles.</p></details>
-    <details><summary>Which browsers are supported?</summary><p>Chrome and Edge today, with Firefox support planned.</p></details>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="footer-brand"><img class="brand-logo" src="../extension/icons/velnar-mark.svg" alt="VELNAR" />VELNAR</div>
-  <div class="footer-links">
-    <a href="../README.md">Documentation</a>
-    <a href="#privacy">Privacy</a>
-    <a href="#faq">FAQ</a>
-  </div>
-  <p class="footer-note">Open source, local-first, no tracking.</p>
-</footer>
-
-<script src="../extension/utils/constants.js"></script>
-<script src="../extension/themes/presets.js"></script>
-<script src="script.js"></script>
+      <div class="hero-stage" aria-label="Interactive VELNAR theme preview">
+        <div class="stage-orbit orbit-one"></div><div class="stage-orbit orbit-two"></div><div class="stage-glow"></div>
+        <div class="browser-card">
+          <div class="browser-top"><span class="traffic"><i></i><i></i><i></i></span><span class="browser-url"><b></b> github.com / velnar</span><span class="browser-avatar">V</span></div>
+          <div class="browser-body"><aside><b>⌂</b><b>⌕</b><b>◫</b><b>◎</b><span></span><b>⚙</b></aside><div class="browser-content"><div class="repo-bar"><strong>velnar / <span>workspace</span></strong><button>★ Star</button></div><div class="feature-row"><div class="profile-mark"><img src="../extension/icons/velnar-mark.svg" alt=""></div><div><small>YOUR SPACE</small><h2 id="heroThemeName">Spider-Man</h2><p id="heroThemeTagline">Web lines. Electric nights.</p></div></div><div class="demo-grid" id="demoGrid" aria-hidden="true"></div><div class="repo-lines"><i></i><i></i><i></i></div></div></div>
+        </div>
+        <div class="theme-pill" id="heroPill"><span></span><b>01</b> CINEMATIC WORLD</div>
+      </div>
+    </section>
+    <section class="trust-strip" aria-label="Product principles"><p>Made for the way developers actually work</p><span>Private by design</span><span>Works on GitHub</span><span>Chrome &amp; Edge</span><span>Reduced-motion aware</span></section>
+    <section class="section worlds" id="worlds">
+      <div class="section-heading"><div><p class="eyebrow">01 / THE COLLECTION</p><h2>Choose a world.<br>Keep your workflow.</h2></div><p>Every world pairs an original palette, local vector artwork, and a contribution-grid scene. Nothing is sent away, and GitHub remains GitHub underneath.</p></div>
+      <div class="world-layout"><div class="world-picker" id="worldPicker" aria-label="Choose a cinematic world"></div><article class="world-feature"><div class="feature-art" id="featureArt" aria-hidden="true"></div><div class="feature-copy"><p id="featureIndex">WORLD 01 / 15</p><h3 id="featureName">Spider-Man</h3><span id="featureTagline">Web lines. Electric nights.</span><p id="featureDescription">A local scene with web traces, charged details, and a short story on the contribution grid.</p><a href="../extension/preview/preview.html#spider-man">Watch the scene <span>→</span></a></div></article></div>
+    </section>
+    <section class="section studio-section" id="studio">
+      <div class="section-heading"><div><p class="eyebrow">02 / THE STUDIO</p><h2>One identity across<br>your GitHub.</h2></div><p>Use a finished theme in one click, then make it yours with component controls, typography, layout settings, and safe custom CSS.</p></div>
+      <div class="studio-window"><div class="studio-nav"><span class="brand-mini">V</span><b>Appearance</b><a class="active">Themes</a><a>Components</a><a>Typography</a><a>Custom CSS</a><small>Settings stay on this device</small></div><div class="studio-main"><div class="studio-toolbar"><div><p>Theme builder</p><h3>Make the surface yours.</h3></div><button>Apply changes</button></div><div class="studio-grid"><div class="control-panel"><label>Theme name<input value="Midnight Signal" aria-label="Theme name"></label><div class="control-title">Palette</div><div class="token-list"><button><i class="token-bg"></i>Background <code>#0A0E17</code></button><button><i class="token-surface"></i>Surface <code>#121A2B</code></button><button><i class="token-accent"></i>Accent <code>#7C9DFF</code></button><button><i class="token-text"></i>Text <code>#EEF3FF</code></button></div></div><div class="studio-preview"><div class="preview-tab"><span>Overview</span><span>Repositories</span><span>Stars</span></div><h4>Majid / VELNAR</h4><p>Building a GitHub that feels like home.</p><div class="preview-stat"><b>46</b><span>repositories</span><b>129</b><span>contributions</span></div><div class="preview-cells" id="previewCells" aria-hidden="true"></div></div></div></div></div>
+    </section>
+    <section class="section workflow"><div class="workflow-intro"><p class="eyebrow">03 / YOUR FLOW</p><h2>From choice to<br>your GitHub.</h2><p>VELNAR does not replace your profile or ask for your account. It gives the interface you see every day a visual system that belongs to you.</p></div><ol><li><b>01</b><div><h3>Explore the worlds</h3><p>Preview every cinematic theme and palette before applying anything.</p></div></li><li><b>02</b><div><h3>Set the mood</h3><p>Apply a theme instantly or tune colors, components, type, radius, and shadows.</p></div></li><li><b>03</b><div><h3>Work as usual</h3><p>Your GitHub data, links, shortcuts, and actions remain exactly where they are.</p></div></li></ol></section>
+    <section class="section privacy" id="privacy"><div class="privacy-sigil">V</div><div><p class="eyebrow">PRIVATE BY DESIGN</p><h2>Your GitHub data<br>doesn’t leave your browser.</h2><p>VELNAR has no sign-in, no analytics, no remote artwork, and no GitHub token requirement. Themes, preferences, and custom CSS are stored locally through browser storage.</p><a class="text-link" href="../README.md">Read the technical details <span>→</span></a></div></section>
+    <section class="install" id="install"><div><p class="eyebrow">START HERE</p><h2>Make GitHub yours.</h2><p>Download VELNAR, load it once in Chrome or Edge, and choose the world you want to work in.</p></div><div class="install-actions"><a class="button button-primary" href="../dist/velnar-extension.zip" download>Download VELNAR <span>↓</span></a><a class="button button-quiet" href="#how">Installation guide</a></div></section>
+    <section class="guide" id="how" aria-label="Installation guide"><b>1</b><p>Extract the download.</p><b>2</b><p>Open <code>chrome://extensions</code> or <code>edge://extensions</code>.</p><b>3</b><p>Enable Developer mode and choose <em>Load unpacked</em>.</p></section>
+  </main>
+  <footer><a class="brand" href="#top"><img src="../extension/icons/velnar-mark.svg" alt=""><span>VELNAR</span></a><p>GitHub, made personal. Local-first and independent.</p><a href="../extension/preview/preview.html">Live preview ↗</a></footer>
+  <script src="../extension/utils/constants.js"></script><script src="../extension/themes/presets.js"></script><script src="../extension/themes/collection-art.js"></script><script src="../extension/themes/scene-art.js"></script><script src="script.js"></script>
 </body>
 </html>
